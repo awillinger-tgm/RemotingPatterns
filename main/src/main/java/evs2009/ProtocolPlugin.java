@@ -7,8 +7,8 @@ package evs2009;
  *			Michael Greifeneder <mikegr@gmx.net>
  *
  */
-public interface RequestHandler {
+public interface ProtocolPlugin {
 
-	public void addPlugin(ProtocolPlugin pp);
-
+	public ProtocolPluginServer getServer();
+	public ProtocolPluginClient getClient();
 }

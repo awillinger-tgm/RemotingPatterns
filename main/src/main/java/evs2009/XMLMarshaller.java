@@ -1,5 +1,4 @@
 package evs2009;
-
 /**
  *
  * @author  Michael Borko<michael@borko.at>,
@@ -7,8 +6,6 @@ package evs2009;
  *			Michael Greifeneder <mikegr@gmx.net>
  *
  */
-public interface RequestHandler {
-
-	public void addPlugin(ProtocolPlugin pp);
+public class XMLMarshaller {
 
 }

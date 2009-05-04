@@ -1,5 +1,7 @@
 package evs2009;
 
+import java.io.Serializable;
+
 /**
  *
  * @author  Michael Borko<michael@borko.at>,
@@ -7,8 +9,11 @@ package evs2009;
  *			Michael Greifeneder <mikegr@gmx.net>
  *
  */
-public interface RequestHandler {
+public class AbsolutObjectReference implements Serializable {
 
-	public void addPlugin(ProtocolPlugin pp);
+
+	public AbsolutObjectReference(String name) {
+		//TODO: store name
+	}
 
 }

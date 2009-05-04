@@ -7,8 +7,8 @@ package evs2009;
  *			Michael Greifeneder <mikegr@gmx.net>
  *
  */
-public interface RequestHandler {
+public interface Invoker {
 
-	public void addPlugin(ProtocolPlugin pp);
+	public byte[] handleRequest(byte[] data);
 
 }

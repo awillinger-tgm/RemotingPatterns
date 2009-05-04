@@ -7,8 +7,8 @@ package evs2009;
  *			Michael Greifeneder <mikegr@gmx.net>
  *
  */
-public interface RequestHandler {
+public interface Requestor {
 
-	public void addPlugin(ProtocolPlugin pp);
+	public Object invoke(AbsolutObjectReference ref, String methodName, Object[] params);
 
 }
