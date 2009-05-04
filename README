@@ -1,0 +1,47 @@
+git clone git@schuerrer.org:evs2009.git
+
+das leere Repository auschecken.
+
+Unbedingt die beiden Befehle mit euren Daten ausführen. 
+
+git config --global user.name 'Michael Greifeneder'
+git config --global user.email 'mikegr@gmx.net'
+
+An Ubuntu-Packages empfehle ich 
+git-core // Commandline
+gitk, giggle // GUI
+kdiff3 - wirklich elegantes Merge Tool in Zusammenarbeit mit "git mergetool"
+
+Eclipse-Plugin
+========
+Ein Plugin für Eclipse gibt es unter 
+http://www.jgit.org/
+
+Die Update-Site zum Installieren ist unter
+http://www.jgit.org/update-site
+
+Anschließend das Plugin für das bereits importierte Projekt mit 
+Team->Share Project -> Git -> Next -> Finish aktivieren.
+
+Shortcuts für die Commandline setzen
+======================
+git config --global alias.st 'status'
+git config --global alias.ci 'commit'
+git config --global alias.co 'checkout'
+git config --global alias.df 'diff'
+git config --global alias.lg 'log -p'
+git config --global alias.br 'branch'
+
+
+Farbige Anzeige von Branch im Prompt:
+======================
+export PS1='\[\033[00;32m\]\u\[\033[01m\]@\[\033[00;36m\]\h\[\033[01m\]:
+\[\033[00;35m\]\w\[\033[00m\]\[\033[01;33m\]`git branch 2>/dev/null|cut -f2 -
+d\* -s`\[\033[00m\]\$ '
+
+
+Meine Bookmarks für Git gibt es unter
+http://delicious.com/mikegr/git
+
+Besonders empfehlenswert: die Cheatsheets
+http://delicious.com/mikegr/git+cheatsheet
