@@ -8,13 +8,12 @@ public class PeerImpl implements Peer {
 	private final HashMap<String, Resource> resources = new HashMap<String, Resource>();
 	private final HashMap<String, TransferRequest> transferRequests = new HashMap<String, TransferRequest>();
 
-	//TODO: set self string
+	// TODO: set self string
 	private String self;
 	private String other;
 
-
 	@Override
-	public MetaData check(String name) throws EppErrorException {
+	public MetaData check(String name) {
 		Resource resource = resources.get(name);
 		if (resource == null) {
 			throw new EppErrorException(EppErrorCode.RESOURCE_NOT_FOUND, "");
@@ -23,7 +22,7 @@ public class PeerImpl implements Peer {
 	}
 
 	@Override
-	public void create(String name, byte[] data) throws EppErrorException {
+	public void create(String name, byte[] data) {
 		if (resources.containsKey(name)) {
 			throw new EppErrorException(EppErrorCode.RESOURCE_EXISTS, "");
 		}
@@ -35,27 +34,27 @@ public class PeerImpl implements Peer {
 	}
 
 	@Override
-	public void delete(String name) throws EppErrorException {
+	public void delete(String name) {
 
 		if (!resources.containsKey(name)) {
-			throw new EppErrorException(EppErrorCode.RESOURCE_NOT_FOUND,"");
+			throw new EppErrorException(EppErrorCode.RESOURCE_NOT_FOUND, "");
 		}
-		//TODO: check permission
+		// TODO: check permission
 		resources.remove(name);
 	}
 
 	@Override
-	public void login(String username, String pw) throws EppErrorException {
-		//accepting everyone
+	public void login(String username, String pw) {
+		// accepting everyone
 	}
 
 	@Override
-	public void logout() throws EppErrorException {
-		//ignore
+	public void logout() {
+		// ignore
 	}
 
 	@Override
-	public byte[] read(String name) throws EppErrorException {
+	public byte[] read(String name) {
 		Resource resource = resources.get(name);
 		if (resource == null) {
 			throw new EppErrorException(EppErrorCode.RESOURCE_NOT_FOUND, "");
@@ -64,7 +63,7 @@ public class PeerImpl implements Peer {
 	}
 
 	@Override
-	public void transferCancel(String token) throws EppErrorException {
+	public void transferCancel(String token) {
 		if (transferRequests.containsKey(token)) {
 			throw new EppErrorException(EppErrorCode.TOKEN_NOT_FOUND, "");
 		}
@@ -72,27 +71,29 @@ public class PeerImpl implements Peer {
 	}
 
 	@Override
-	public void transferExecute(String token, MetaData info, byte[] data)
-			throws EppErrorException {
+	public void transferExecute(String token, MetaData info, byte[] data) {
 
 	}
 
 	@Override
-	public void transferRequest(String name, String token)
-			throws EppErrorException {
+	public void transferRequest(String name, String token) {
 		transferRequests.put(token, new TransferRequest(other, name, token));
 	}
 
 	@Override
-	public void update(String name, byte[] data) throws EppErrorException {
+	public void update(String name, byte[] data) {
 		Resource resource = resources.get(name);
 		if (resource == null) {
-			throw new EppErrorException(EppErrorCode.RESOURCE_NOT_FOUND,"");
+			throw new EppErrorException(EppErrorCode.RESOURCE_NOT_FOUND, "");
 		}
 		resource.setData(data);
 		MetaData metaData = resource.getMetaData();
 		metaData.setLastModifcation(new Date());
 		metaData.setSize(data.length);
+	}
+
+	public TransferRequest getTransferRequest(String identifier) {
+		return this.transferRequests.get(identifier);
 	}
 
 }

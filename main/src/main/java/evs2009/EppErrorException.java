@@ -2,13 +2,16 @@ package evs2009;
 
 /**
  *
- * @author  Michael Borko<michael@borko.at>,
- *          Florian Motlik<flomotlik@gmail.com>,
- *			Michael Greifeneder <mikegr@gmx.net>
+ * @author Michael Borko<michael@borko.at>, Florian Motlik<flomotlik@gmail.com>,
+ *         Michael Greifeneder <mikegr@gmx.net>
  *
  */
-public class EppErrorException extends Exception {
+public class EppErrorException extends RuntimeException {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 5526126551270831971L;
 	private final EppErrorCode code;
 
 	public EppErrorException(EppErrorCode code, String message) {
@@ -20,7 +23,6 @@ public class EppErrorException extends Exception {
 		super(codeMessage(code, message), cause);
 		this.code = code;
 	}
-
 
 	public EppErrorCode getCode() {
 		return code;
