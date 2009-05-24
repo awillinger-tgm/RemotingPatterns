@@ -9,7 +9,11 @@ package evs2009;
  */
 public enum EppErrorCode {
 	LOGIN_FAILED(100),
-	PERMISSION_DENIED(200);
+	PERMISSION_DENIED(200),
+	RESOURCE_NOT_FOUND(300),
+	RESOURCE_EXISTS(400),
+	TOKEN_NOT_FOUND(500)
+	;
 
 	private int code;
 	private EppErrorCode(int code) {
