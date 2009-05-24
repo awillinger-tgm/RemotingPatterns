@@ -9,6 +9,6 @@ package evs2009;
  */
 public interface RequestHandler {
 
-	public void addPlugin(ProtocolPlugin pp);
+	public void send(Object epp);
 
 }

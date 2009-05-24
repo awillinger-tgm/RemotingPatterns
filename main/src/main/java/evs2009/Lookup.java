@@ -3,8 +3,9 @@ package evs2009;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
+import com.csvreader.*;
 
-import com.csvreader.CsvReader;
+import java.util.concurrent.ThreadPoolExecutor.AbortPolicy;
 
 /**
  * 
@@ -42,16 +43,16 @@ public class Lookup {
 		}
 	}
 
-	public Peer getReference(String name) {
+	public Requestor getReference(String name) {
 		
 		String address = peers.get(name);
 		String protocol = address.substring(0, address.indexOf("://"));
 		String location = address.substring(address.indexOf("://") + 3);
 
 		if( protocol.equals("soap") )
-			return new PeerStub(new SOAPAbsoluteObjectReference(location));
+			return new Requestor(new SOAPRequestHandler(location));
 		else if ( protocol.equals("socket"))
-			return new PeerStub(new SocketAbsoluteObjectReference(location));
+			return new Requestor(new SocketRequestHandler(location));
 		else
 			return null;
 	}
