@@ -12,6 +12,7 @@ Annahmen:
 *) Explizites beenden einer Session notwendig (kein Timeout vorerst) und damit auch kein automatischer rollback nötig
 
 
+
 Testfälle:
 Possible Errors:
 Login: Wrong credentials
