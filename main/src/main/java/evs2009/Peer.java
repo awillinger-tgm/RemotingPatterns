@@ -9,7 +9,7 @@ package evs2009;
  */
 public interface Peer {
 
-	public void login() throws EppErrorException;
+	public void login(String username, String pw) throws EppErrorException;
 	public void logout() throws EppErrorException;
 
 	public void   create(String name, byte[] data) throws EppErrorException;
@@ -17,9 +17,9 @@ public interface Peer {
 	public void   update(String name, byte[] data) throws EppErrorException;
 	public void   delete(String name) throws EppErrorException;
 
-	public void transferRequest() throws EppErrorException;
-	public void transferExecute() throws EppErrorException;
-	public void transferCancel() throws EppErrorException;
+	public void transferRequest(String name, String token) throws EppErrorException;
+	public void transferExecute(String token, MetaData info, byte[] data) throws EppErrorException;
+	public void transferCancel(String token) throws EppErrorException;
 
 	public MetaData check(String name) throws EppErrorException;
 
