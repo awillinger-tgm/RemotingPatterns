@@ -16,6 +16,13 @@ public class MetaData {
 	private Date lastModifcation;
 	private long size;
 
+	public MetaData(String name, String owner, long size) {
+		creationDate = new Date();
+		lastModifcation = new Date();
+		this.size = size;
+		this.name = name;
+		this.owner = owner;
+	}
 	public String getName() {
 		return name;
 	}
