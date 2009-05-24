@@ -12,7 +12,8 @@ public enum EppErrorCode {
 	PERMISSION_DENIED(200),
 	RESOURCE_NOT_FOUND(300),
 	RESOURCE_EXISTS(400),
-	TOKEN_NOT_FOUND(500)
+	TOKEN_NOT_FOUND(500),
+	Internal_Server_Error(600)
 	;
 
 	private int code;

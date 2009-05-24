@@ -5,181 +5,139 @@
 // Generated on: 2009.05.05 at 09:06:24 AM MESZ 
 //
 
-
 package ietf.params.xml.ns.epp_1;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>Java class for loginType complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
+ * Java class for loginType complex type.
+ *
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
+ *
  * <pre>
- * &lt;complexType name="loginType">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="clID" type="{urn:ietf:params:xml:ns:eppcom-1.0}clIDType"/>
- *         &lt;element name="pw" type="{urn:ietf:params:xml:ns:epp-1.0}pwType"/>
- *         &lt;element name="newPW" type="{urn:ietf:params:xml:ns:epp-1.0}pwType" minOccurs="0"/>
- *         &lt;element name="options" type="{urn:ietf:params:xml:ns:epp-1.0}credsOptionsType"/>
- *         &lt;element name="svcs" type="{urn:ietf:params:xml:ns:epp-1.0}loginSvcType"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name=&quot;loginType&quot;&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name=&quot;clID&quot; type=&quot;{urn:ietf:params:xml:ns:eppcom-1.0}clIDType&quot;/&gt;
+ *         &lt;element name=&quot;pw&quot; type=&quot;{urn:ietf:params:xml:ns:epp-1.0}pwType&quot;/&gt;
+ *         &lt;element name=&quot;newPW&quot; type=&quot;{urn:ietf:params:xml:ns:epp-1.0}pwType&quot; minOccurs=&quot;0&quot;/&gt;
+ *         &lt;element name=&quot;options&quot; type=&quot;{urn:ietf:params:xml:ns:epp-1.0}credsOptionsType&quot;/&gt;
+ *         &lt;element name=&quot;svcs&quot; type=&quot;{urn:ietf:params:xml:ns:epp-1.0}loginSvcType&quot;/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "loginType", propOrder = {
-    "clID",
-    "pw",
-    "newPW",
-    "options",
-    "svcs"
-})
+@XmlType(name = "loginType", propOrder = { "clID", "pw", "options", "svcs" })
 public class LoginType {
 
-    @XmlElement(required = true)
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    protected String clID;
-    @XmlElement(required = true)
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    protected String pw;
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    protected String newPW;
-    @XmlElement(required = true)
-    protected CredsOptionsType options;
-    @XmlElement(required = true)
-    protected LoginSvcType svcs;
+	@XmlElement(required = true)
+	@XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+	protected String clID;
+	@XmlElement(required = true)
+	@XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+	protected String pw;
+	@XmlElement(required = true)
+	protected CredsOptionsType options;
+	@XmlElement(required = true)
+	protected LoginSvcType svcs;
 
-    /**
-     * Gets the value of the clID property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getClID() {
-        return clID;
-    }
+	/**
+	 * Gets the value of the clID property.
+	 *
+	 * @return possible object is {@link String }
+	 *
+	 */
+	public String getClID() {
+		return clID;
+	}
 
-    /**
-     * Sets the value of the clID property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setClID(String value) {
-        this.clID = value;
-    }
+	/**
+	 *Sets the value of the clID property.
+	 *
+	 *@param value
+	 *           allowed object is {@link String }
+	 *
+	 */
+	public void setClID(String value) {
+		this.clID = value;
+	}
 
-    /**
-     * Gets the value of the pw property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getPw() {
-        return pw;
-    }
+	/**
+	 *Gets the value of the pw property.
+	 *
+	 *@return possible object is {@link String }
+	 *
+	 */
+	public String getPw() {
+		return pw;
+	}
 
-    /**
-     * Sets the value of the pw property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setPw(String value) {
-        this.pw = value;
-    }
+	/**
+	 *Sets the value of the pw property.
+	 *
+	 *@param value
+	 *           allowed object is {@link String }
+	 *
+	 */
+	public void setPw(String value) {
+		this.pw = value;
+	}
 
-    /**
-     * Gets the value of the newPW property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getNewPW() {
-        return newPW;
-    }
+	/**
+	 *Gets the value of the options property.
+	 *
+	 *@return possible object is {@link CredsOptionsType }
+	 *
+	 */
+	public CredsOptionsType getOptions() {
+		return options;
+	}
 
-    /**
-     * Sets the value of the newPW property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setNewPW(String value) {
-        this.newPW = value;
-    }
+	/**
+	 *Sets the value of the options property.
+	 *
+	 *@param value
+	 *           allowed object is {@link CredsOptionsType }
+	 *
+	 */
+	public void setOptions(CredsOptionsType value) {
+		this.options = value;
+	}
 
-    /**
-     * Gets the value of the options property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link CredsOptionsType }
-     *     
-     */
-    public CredsOptionsType getOptions() {
-        return options;
-    }
+	/**
+	 *Gets the value of the svcs property.
+	 *
+	 *@return possible object is {@link LoginSvcType }
+	 *
+	 */
+	public LoginSvcType getSvcs() {
+		return svcs;
+	}
 
-    /**
-     * Sets the value of the options property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link CredsOptionsType }
-     *     
-     */
-    public void setOptions(CredsOptionsType value) {
-        this.options = value;
-    }
-
-    /**
-     * Gets the value of the svcs property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link LoginSvcType }
-     *     
-     */
-    public LoginSvcType getSvcs() {
-        return svcs;
-    }
-
-    /**
-     * Sets the value of the svcs property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link LoginSvcType }
-     *     
-     */
-    public void setSvcs(LoginSvcType value) {
-        this.svcs = value;
-    }
+	/**
+	 *Sets the value of the svcs property.
+	 *
+	 *@param value
+	 *           allowed object is {@link LoginSvcType }
+	 *
+	 */
+	public void setSvcs(LoginSvcType value) {
+		this.svcs = value;
+	}
 
 }

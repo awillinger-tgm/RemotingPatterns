@@ -17,7 +17,7 @@ public class SOAPRequestHandler implements Serializable, RequestHandler {
 	}
 
 	@Override
-	public void send(Object epp) {
+	public void send(byte[] epp) {
 		// TODO Auto-generated method stub
 		
 	}

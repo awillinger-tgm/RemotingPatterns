@@ -3,9 +3,8 @@ package evs2009;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
-import com.csvreader.*;
 
-import java.util.concurrent.ThreadPoolExecutor.AbortPolicy;
+import com.csvreader.CsvReader;
 
 /**
  * 
@@ -28,8 +27,8 @@ public class Lookup {
 				String peerID = reader.get("PeerID");
 				String peerAddress = reader.get("PeerAddress");
 
-				System.out.println("peerID: " + peerID);
-				System.out.println("peerAddress: " + peerAddress);
+				// System.out.println("peerID: " + peerID);
+				// System.out.println("peerAddress: " + peerAddress);
 
 				peers.put(peerID, peerAddress);
 			}
