@@ -21,8 +21,7 @@ public class Lookup {
 		return new AbsolutObjectReference(name);
 	}
 
-	//private void init() {
-	public static void main( String[] args) {
+	private void init() {
 		CsvReader reader;
 		try {
 			reader = new CsvReader("peers.csv");
@@ -35,6 +34,8 @@ public class Lookup {
 
 				System.out.println("peerID: " + peerID);
 				System.out.println("peerAddress: " + peerAddress);
+
+				peers.put(peerID, peerAddress);
 			}
 			reader.close();
 		} catch (FileNotFoundException e) {
@@ -44,7 +45,10 @@ public class Lookup {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
+	public String getAddress (String identifier) {
+		return peers.get(identifier);
+	}
+	
 }
