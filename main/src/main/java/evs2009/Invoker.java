@@ -9,6 +9,6 @@ package evs2009;
  */
 public interface Invoker {
 
-	public byte[] handleRequest(byte[] data);
+	public byte[] handleRequest(String methodName, Object[] params);
 
 }
