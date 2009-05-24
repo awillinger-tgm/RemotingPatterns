@@ -17,8 +17,8 @@ public class Lookup {
 
 	private HashMap<String, String> peers = new HashMap<String, String>();
 
-	public AbsolutObjectReference getReference(String name) {
-		return new AbsolutObjectReference(name);
+	public SocketAbsoluteObjectReference getReference(String name) {
+		return new SocketAbsoluteObjectReference(name);
 	}
 
 	private void init() {

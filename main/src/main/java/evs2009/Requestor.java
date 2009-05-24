@@ -9,6 +9,6 @@ package evs2009;
  */
 public interface Requestor {
 
-	public Object invoke(AbsolutObjectReference ref, String methodName, Object[] params);
+	public Object invoke(AbsoluteObjectReference ref, String methodName, Object[] params);
 
 }
