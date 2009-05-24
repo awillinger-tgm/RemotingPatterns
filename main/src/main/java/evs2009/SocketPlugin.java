@@ -7,6 +7,15 @@ package evs2009;
  *			Michael Greifeneder <mikegr@gmx.net>
  *
  */
-public class SocketPlugin {
+public class SocketPlugin implements ProtocolPlugin {
+
+	@Override
+	public ProtocolPluginClient getClient() {
+		return new SocketPluginClient();
+	}
+	@Override
+	public ProtocolPluginServer getServer() {
+		return new SocketPluginServer();
+	}
 
 }

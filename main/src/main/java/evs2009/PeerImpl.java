@@ -2,10 +2,6 @@ package evs2009;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
-
-import sun.net.www.MeteredStream;
 
 public class PeerImpl implements Peer {
 
@@ -50,13 +46,12 @@ public class PeerImpl implements Peer {
 
 	@Override
 	public void login(String username, String pw) throws EppErrorException {
-
+		//accepting everyone
 	}
 
 	@Override
 	public void logout() throws EppErrorException {
-		// TODO Auto-generated method stub
-
+		//ignore
 	}
 
 	@Override

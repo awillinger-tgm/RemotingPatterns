@@ -1,5 +1,7 @@
 package evs2009;
 
+import javax.xml.ws.Endpoint;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +25,7 @@ public class SOAPPluginServer implements ProtocolPluginServer {
 	}
 	@Override
 	public void openServerPort() {
-		// TODO Auto-generated method stub
+
 
 	}
 }
