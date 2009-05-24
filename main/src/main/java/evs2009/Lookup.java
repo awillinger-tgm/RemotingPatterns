@@ -3,9 +3,8 @@ package evs2009;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
-import com.csvreader.*;
 
-import java.util.concurrent.ThreadPoolExecutor.AbortPolicy;
+import com.csvreader.CsvReader;
 
 /**
  * 
@@ -17,8 +16,8 @@ public class Lookup {
 
 	private HashMap<String, String> peers = new HashMap<String, String>();
 
-	public AbsolutObjectReference getReference(String name) {
-		return new AbsolutObjectReference(name);
+	public SocketAbsoluteObjectReference getReference(String name) {
+		return new SocketAbsoluteObjectReference(name);
 	}
 
 	private void init() {

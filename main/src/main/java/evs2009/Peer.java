@@ -2,25 +2,30 @@ package evs2009;
 
 /**
  *
- * @author  Michael Borko<michael@borko.at>,
- *          Florian Motlik<flomotlik@gmail.com>,
- *			Michael Greifeneder <mikegr@gmx.net>
+ * @author Michael Borko<michael@borko.at>, Florian Motlik<flomotlik@gmail.com>,
+ *         Michael Greifeneder <mikegr@gmx.net>
  *
  */
 public interface Peer {
 
-	public void login(String username, String pw) throws EppErrorException;
-	public void logout() throws EppErrorException;
+	public void login(String username, String pw);
 
-	public void   create(String name, byte[] data) throws EppErrorException;
-	public byte[] read(String name) throws EppErrorException;
-	public void   update(String name, byte[] data) throws EppErrorException;
-	public void   delete(String name) throws EppErrorException;
+	public void logout();
 
-	public void transferRequest(String name, String token) throws EppErrorException;
-	public void transferExecute(String token, MetaData info, byte[] data) throws EppErrorException;
-	public void transferCancel(String token) throws EppErrorException;
+	public void create(String name, byte[] data);
 
-	public MetaData check(String name) throws EppErrorException;
+	public byte[] read(String name);
+
+	public void update(String name, byte[] data);
+
+	public void delete(String name);
+
+	public void transferRequest(String name, String token);
+
+	public void transferExecute(String token, MetaData info, byte[] data);
+
+	public void transferCancel(String token);
+
+	public MetaData check(String name);
 
 }

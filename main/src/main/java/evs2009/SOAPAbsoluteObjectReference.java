@@ -9,10 +9,10 @@ import java.io.Serializable;
  *			Michael Greifeneder <mikegr@gmx.net>
  *
  */
-public class AbsolutObjectReference implements Serializable {
+public class SOAPAbsoluteObjectReference implements Serializable, AbsoluteObjectReference {
 
 
-	public AbsolutObjectReference(String name) {
+	public SOAPAbsoluteObjectReference(String name) {
 		//TODO: store name
 	}
 
