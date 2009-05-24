@@ -17,11 +17,7 @@ public class Lookup {
 
 	private HashMap<String, String> peers = new HashMap<String, String>();
 
-	public SocketAbsoluteObjectReference getReference(String name) {
-		return new SocketAbsoluteObjectReference(name);
-	}
-
-	private void init() {
+	public Lookup() {
 		CsvReader reader;
 		try {
 			reader = new CsvReader("peers.csv");
@@ -47,8 +43,18 @@ public class Lookup {
 		}
 	}
 
-	public String getAddress (String identifier) {
-		return peers.get(identifier);
+	public Peer getReference(String name) {
+		
+		String address = peers.get(name);
+		String protocol = address.substring(0, address.indexOf("://"));
+		String location = address.substring(address.indexOf("://") + 3);
+
+		if( protocol.equals("soap") )
+			return new PeerStub(new SOAPAbsoluteObjectReference(location));
+		else if ( protocol.equals("socket"))
+			return new PeerStub(new SocketAbsoluteObjectReference(location));
+		else
+			return null;
 	}
-	
+
 }
