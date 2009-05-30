@@ -9,6 +9,7 @@ package comm;
  */
 public interface ProtocolPlugin {
 
+	public int port = 0;
 	public ProtocolPluginServer getServer();
 	public ProtocolPluginClient getClient();
 }

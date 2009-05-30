@@ -16,14 +16,15 @@ public class Invoker {
 
 	private static final Logger log = LoggerFactory.getLogger(Invoker.class);
 	
-	public HashMap<String, Object> registry = new  HashMap<String, Object>();
+	public HashMap<String, Object> registry = new HashMap<String, Object>();
 	
-	public ProtocolPluginServer server;
+	//public ProtocolPluginServer server;
 	
-	public Invoker(ProtocolPluginServer server) throws ProtocolException {
-		this.server = server;
-		server.configure(this);
-		server.openServerPort();
+	public Invoker(ProtocolPluginServer[] servers) throws ProtocolException {
+		for (ProtocolPluginServer server : servers) {
+			server.configure(this);
+			server.openServer();
+		}
 	}
 
 	public void register(String id, Object object) {

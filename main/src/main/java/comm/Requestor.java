@@ -17,7 +17,6 @@ public class Requestor {
 		this.client = client;
 	}
 
-
 	/** 
 	 *  
 	 * @param interfac Interface of Remote object
@@ -25,6 +24,7 @@ public class Requestor {
 	 * @return
 	 */
 	public Object getObject(final AbsoluteObjectReference aor) throws ClassNotFoundException {
+		client = aor.getPluginClient();
 		Class clz = Class.forName(aor.getClazzName());
 		InvocationHandler handler = new InvocationHandler() {
 			@Override
@@ -35,6 +35,7 @@ public class Requestor {
 				oos.writeObject(aor.getObjectId());
 				oos.writeObject(method.getName());
 				oos.writeObject(args);
+				oos.flush();
 				byte[] response = client.sendData(aor, bos.toByteArray());
 				ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(response));
 				return ois.readObject();
