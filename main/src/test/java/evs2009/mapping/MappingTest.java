@@ -20,9 +20,9 @@ import evs2009.mapping.CheckData.CheckDataInternal;
 import evs2009.mapping.CheckData.CheckDataName;
 
 public class MappingTest {
-	private JAXBContext context;
-	private Marshaller marshaller;
-	private Unmarshaller unmarshall;
+	private final JAXBContext context;
+	private final Marshaller marshaller;
+	private final Unmarshaller unmarshall;
 
 	public MappingTest() throws JAXBException {
 		context = JAXBContext.newInstance(Epp.class, Command.class,
@@ -68,12 +68,6 @@ public class MappingTest {
 		assertTrue(epp2.getCommand().isLogout());
 	}
 
-	@Test
-	public void testCheck() {
-		Epp epp = new Epp(new Command(new Check("example1", "example2",
-				"example3")));
-		marshalUnmarshal(epp);
-	}
 
 	@Test
 	public void testCheckReturn() {

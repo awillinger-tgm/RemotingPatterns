@@ -1,17 +1,12 @@
 package evs2009;
 
-import ietf.params.xml.ns.epp_1.EppType;
-import ietf.params.xml.ns.epp_1.LoginType;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
+
+import com.sun.xml.internal.ws.api.addressing.WSEndpointReference.Metadata;
 
 import comm.Communication;
+
 import evs2009.mapping.Epp;
 import evs2009.mapping.MessageCreator;
 
@@ -40,9 +35,13 @@ public class ClientPeer implements Peer {
 
 		Epp response = send(epp);
 
-
-		//TODO: response.getResponse()
-		return null;
+		byte[] data = response.getResponse().getResData().getInfData().getData();
+		try {
+			MetaData md = MetaData.unserialize(data);
+			return md;
+		} catch (Exception e) {
+			throw new EppErrorException(EppErrorCode.SERIALIZATION_ERROR, "Metadata unserialize failed");
+		}
 	}
 
 	@Override
