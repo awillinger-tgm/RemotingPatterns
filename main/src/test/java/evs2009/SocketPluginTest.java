@@ -8,6 +8,7 @@ public class SocketPluginTest {
 		Lookup look = new Lookup();
 		Requestor req = new Requestor(new SocketRequestHandler(
 				"localhost:45445"));
+		
 		SocketPluginServer server = new SocketPluginServer();
 		server.configure(45445, new Invoker() {
 
