@@ -6,7 +6,7 @@ public class SocketPluginTest {
 	@Test
 	public void socketPluginLookup() throws Exception {
 		Lookup look = new Lookup();
-		Requestor req = new Requestor(new SocketRequestHandler(
+		ClientPeer req = new ClientPeer(new SocketRequestHandler(
 				"localhost:45445"));
 		
 		SocketPluginServer server = new SocketPluginServer();

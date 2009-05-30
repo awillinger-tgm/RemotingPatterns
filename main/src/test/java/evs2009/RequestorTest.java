@@ -5,16 +5,16 @@ import org.junit.Test;
 
 public class RequestorTest {
 
-	private Requestor requestor = null;
+	private ClientPeer clientPeer = null;
 
 	@Before
 	public void setUp() {
-		this.requestor = new Requestor(new OutputRequestHandler());
+		this.clientPeer = new ClientPeer(new OutputRequestHandler());
 	}
 
 	@Test
 	public void testLogin() {
-		requestor.login("TestUser", "TestPWD");
+		clientPeer.login("TestUser", "TestPWD");
 	}
 
 	private static final class OutputRequestHandler implements RequestHandler {

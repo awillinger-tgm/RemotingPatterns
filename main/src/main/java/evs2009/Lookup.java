@@ -42,16 +42,16 @@ public class Lookup {
 		}
 	}
 
-	public Requestor getReference(String name) {
+	public ClientPeer getReference(String name) {
 		
 		String address = peers.get(name);
 		String protocol = address.substring(0, address.indexOf("://"));
 		String location = address.substring(address.indexOf("://") + 3);
 
 		if( protocol.equals("soap") )
-			return new Requestor(new SOAPRequestHandler(location));
+			return new ClientPeer(new SOAPRequestHandler(location));
 		else if ( protocol.equals("socket"))
-			return new Requestor(new SocketRequestHandler(location));
+			return new ClientPeer(new SocketRequestHandler(location));
 		else
 			return null;
 	}

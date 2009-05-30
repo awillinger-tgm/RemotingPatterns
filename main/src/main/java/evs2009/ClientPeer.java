@@ -9,11 +9,11 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
-public class Requestor implements Peer {
+public class ClientPeer implements Peer {
 
 	private final RequestHandler handler;
 
-	public Requestor(RequestHandler rh) {
+	public ClientPeer(RequestHandler rh) {
 		this.handler = rh;
 	}
 
