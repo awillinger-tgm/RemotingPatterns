@@ -113,4 +113,21 @@ public class MappingTest {
 				new byte[] { 1, 2, 3, 4, 5 })), "12345"));
 		marshalUnmarshal(epp);
 	}
+
+	@Test
+	public void testInfo() {
+		Epp epp = new Epp(new Command(new Info(new ObjectData("infoName",
+				new byte[] { 1, 2, 3, 4, 5 })), "someId"));
+		marshalUnmarshal(epp);
+	}
+
+	@Test
+	public void testInfoResponse() {
+		Epp epp = new Epp(
+				new Response(new Result("1000", "Some Message"),
+						new ResData(new ObjectData("someName", new byte[] { 1,
+								2, 3, 4, 5 }), "12345-roid"), new TrId(
+								"ABC-12345", "12345-CAB")));
+		marshalUnmarshal(epp);
+	}
 }

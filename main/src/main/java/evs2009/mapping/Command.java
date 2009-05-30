@@ -17,6 +17,8 @@ public class Command {
 
 	private Delete delete;
 
+	private Info info;
+
 	private Check check;
 
 	private String clTRID;
@@ -49,6 +51,11 @@ public class Command {
 	public Command(Delete delete, String clTRID) {
 		super();
 		this.delete = delete;
+		this.clTRID = clTRID;
+	}
+
+	public Command(Info info2, String clTRID) {
+		this.info = info2;
 		this.clTRID = clTRID;
 	}
 
