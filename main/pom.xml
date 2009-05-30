@@ -12,6 +12,38 @@
   </parent>
   <name>main</name>
   <url>http://maven.apache.org</url>
+  <build>                                                                                      
+    <plugins>
+        <plugin>                                                                                   
+        <groupId>org.codehaus.mojo</groupId>                                                     
+        <artifactId>exec-maven-plugin</artifactId>                                               
+        <executions>                                                                             
+          <execution>                                                                            
+            <goals>                                                                              
+              <goal>java</goal>                                                                  
+            </goals>                                                                             
+          </execution>                                                                           
+        </executions>
+        <configuration>
+          <mainClass>evs2009.Application</mainClass>
+          <arguments>
+            <argument>localhost:34000</argument>
+            <argument>localhost:34001</argument>
+            <argument>download</argument>
+          </arguments>
+          <!--
+          <systemProperties>
+            <systemProperty>
+              <key>myproperty</key>
+              <value>myvalue</value>
+            </systemProperty>
+          </systemProperties>
+          -->
+        </configuration>
+	</plugin>
+    </plugins>
+  </build>
+
   <dependencies>
   </dependencies>
 </project>
