@@ -18,15 +18,15 @@ public class CommunicationTest {
 
 	@Test
 	public void testname() throws Exception {
-		MockBridge bridge = new MockBridge();
-		MockBridge unused = new MockBridge();
-		MockPlugin p1 = new MockPlugin();
-		p1.setClient(bridge.getClientSide());
-		p1.setServer(unused.getServerSide());
+		//MockBridge bridge = new MockBridge();
+		//MockBridge unused = new MockBridge();
+		//MockPlugin p1 = new MockPlugin();
+		//p1.setClient(bridge.getClientSide());
+		//p1.setServer(unused.getServerSide());
 
-		MockPlugin p2 = new MockPlugin();
-		p2.setServer(bridge.getServerSide());
-		p2.setClient(unused.getClientSide());
+		//MockPlugin p2 = new MockPlugin();
+		//p2.setServer(bridge.getServerSide());
+		//p2.setClient(unused.getClientSide());
 
 		comm.ProtocolPlugin cplugin1 = new comm.socket.SocketPlugin(12345);
         //comm.ProtocolPlugin cplugin2 = new comm.soap.SOAPPlugin(23456);
@@ -35,10 +35,11 @@ public class CommunicationTest {
 		comm.ProtocolPlugin splugin1 = new comm.socket.SocketPlugin(12300);
         //comm.ProtocolPlugin splugin2 = new comm.soap.SOAPPlugin(23400);
 		RequestHandler srh = new RequestHandler(new ProtocolPlugin[]{splugin1});
-
+		Thread.sleep(1000);
+		
 		MockCommunication con =  new MockCommunication();
 
-		srh.register("comTest", con);
+		srh.register("peer", con);
 
 		Lookup lup = new Lookup("");
 		AbsoluteObjectReference aor = lup.lookup("test2");

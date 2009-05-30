@@ -1,6 +1,5 @@
 package comm;
 
-
 public class RequestHandler {
 
 	ProtocolPlugin[] plugins;
@@ -11,11 +10,11 @@ public class RequestHandler {
 		this.plugins = plugins;
 		// invoker = new Invoker(plugin.getServer());
 		ProtocolPluginServer[] pluginServer = new ProtocolPluginServer[plugins.length];
-		for( int i=0; i<plugins.length; i++ ) {
+		for (int i = 0; i < plugins.length; i++) {
 			pluginServer[i] = plugins[i].getServer();
 		}
 		invoker = new Invoker(pluginServer);
-		//requestor = new Requestor(plugin.getClient());
+		// requestor = new Requestor(plugin.getClient());
 	}
 
 	public void register(String id, Object object) {

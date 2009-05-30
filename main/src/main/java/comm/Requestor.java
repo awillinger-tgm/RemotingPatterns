@@ -8,6 +8,8 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
+import comm.socket.SocketPlugin;
+
 public class Requestor {
 
 	public ProtocolPluginClient client;
@@ -30,13 +32,16 @@ public class Requestor {
 			@Override
 			public Object invoke(Object proxy, Method method, Object[] args)
 					throws Throwable {
+				
 				ByteArrayOutputStream bos = new ByteArrayOutputStream();
 				ObjectOutputStream oos = new ObjectOutputStream(bos);
 				oos.writeObject(aor.getObjectId());
 				oos.writeObject(method.getName());
 				oos.writeObject(args);
 				oos.flush();
+				
 				byte[] response = client.sendData(aor, bos.toByteArray());
+				
 				ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(response));
 				return ois.readObject();
 			}

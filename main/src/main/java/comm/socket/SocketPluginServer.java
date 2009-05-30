@@ -1,6 +1,10 @@
 package comm.socket;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -42,36 +46,39 @@ public class SocketPluginServer implements Runnable, ProtocolPluginServer {
 	public void run() {
 		try {
 			ServerSocket ss = new ServerSocket(port);
-			while (true) {
+			while(true) {
 				final Socket socket = ss.accept();
 
 				pool.execute(new Runnable() {
 					@Override
 					public void run() {
 						try {
-							log
-									.debug("SRV :: Running listener on port "
-											+ port);
+							log.debug("SRV :: Running listener on port " + port);
+							 
 							InputStream is = socket.getInputStream();
 							OutputStream os = socket.getOutputStream();
-							BufferedReader reader = new BufferedReader(
-									new InputStreamReader(is));
-							String nextLine = reader.readLine();
-							log.debug(nextLine);
-							long size = Long.parseLong(nextLine);
-							log.debug("SRV :: Size: " + size);
+							
+							long size = SocketPlugin.readSize(is);
 							byte[] output = new byte[(int) size];
 
 							int i = is.read(output, 0, output.length);
-							log.debug("SRV :: Read: " + i + " Data: "
-									+ new String(output, 0, i));
-							byte[] handleRequest = invoker
-									.handleRequest(output);
-							os.write(String.valueOf(handleRequest.length)
-									.getBytes());
+							
+							byte[] handleRequest = invoker.handleRequest(output);
+							log.info("Server sends bytes:" + handleRequest.length);
+							
+							os.write(String.valueOf(handleRequest.length).getBytes());
 							os.write("\n".getBytes());
-							os.write(handleRequest);
+							//log.debug("Sends size");
 							os.flush();
+							//log.debug("Send flush");
+							
+							os.write(handleRequest);
+							//log.debug("send response");
+							os.flush();
+							//log.debug("Send flush");
+							is.close();
+							os.close();
+
 						} catch (Exception e) {
 							log.warn("SRV :: Client socket problem!", e);
 						}

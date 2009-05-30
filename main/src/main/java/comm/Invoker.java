@@ -12,6 +12,8 @@ import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import comm.socket.SocketPlugin;
+
 public class Invoker {
 
 	private static final Logger log = LoggerFactory.getLogger(Invoker.class);
@@ -36,11 +38,11 @@ public class Invoker {
 			ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(input));
 			
 			String objectId = (String) ois.readObject();
-			log.debug("ObjectID:" +  objectId);
+			//log.debug("ObjectID:" +  objectId);
 			String method = (String) ois.readObject();
-			log.debug("Method: " + method);
+			//log.debug("Method: " + method);
 			Object[] params = (Object[]) ois.readObject();
-			log.debug("Params:" + params.toString());
+			//log.debug("Params:" + params.toString());
 			//String clazzName = aor.getClazzName();
 			Object object = registry.get(objectId);			
 			Class[] paramsClass = new Class[params.length];
@@ -54,7 +56,9 @@ public class Invoker {
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
 			ObjectOutputStream oos = new ObjectOutputStream(bos);
 			oos.writeObject(result);
+			
 			return bos.toByteArray();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {

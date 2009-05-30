@@ -1,6 +1,7 @@
 package comm.socket;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -38,17 +39,37 @@ public class SocketPluginClient implements ProtocolPluginClient {
 		try {
 			InputStream is = socket.getInputStream();
 			OutputStream os = socket.getOutputStream();
+
 			os.write(String.valueOf(data.length).getBytes());
 			os.write("\n".getBytes());
-			log.debug("CLNT :: Size: " + data.length + " Data: " + data);
+			//log.debug("CLNT :: Size: " + data.length + " Data: " + data);
+			
 			os.write(data);
 			os.flush();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-			int size = Integer.parseInt(reader.readLine());
-			byte[] output = new byte[size];
-			int i = is.read(output, 0, output.length);
-			log.debug("CLNT :: Size: " + size + " Data: " + new String(output, 0, i));
-			return output; 
+			
+			long size = SocketPlugin.readSize(is);
+			log.info("Client receives bytes:" + size);
+			byte[] output = new byte[4096];
+
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			
+			int i = 0;
+			long read = 0;
+			
+			while ((i = is.read(output)) != -1) {
+				//log.debug("Got bytes" + i);
+				read += i;
+				//log.debug("Read is " + read);
+				bos.write(output, 0, i);
+				if (read >= size) {
+					break;
+				}
+			}
+			
+			is.close();
+			os.close();
+			
+			return bos.toByteArray(); 
 
 		} catch (Exception e) {
 			throw new ProtocolException(e);

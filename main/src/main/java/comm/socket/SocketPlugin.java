@@ -1,5 +1,9 @@
 package comm.socket;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import comm.ProtocolPlugin;
 import comm.ProtocolPluginClient;
 import comm.ProtocolPluginServer;
@@ -28,4 +32,25 @@ public class SocketPlugin implements ProtocolPlugin {
 		return new SocketPluginServer(port);
 	}
 
+	public static void output(byte[] b) {
+		System.out.println("ByteArray:");
+		for (int i = 0; i < b.length; i++) {
+			System.out.print("|" + b[i]);	
+		}
+		System.out.println("\\end");
+	}
+	
+	public static long readSize(InputStream is) throws IOException{
+		int i = 0;
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		while ((i =is.read())!=-1) {
+			if (i == 10) {
+				break;
+			}
+			bos.write(i);
+		}
+		return Long.parseLong(new String(bos.toByteArray()));
+		
+	}
+	
 }
