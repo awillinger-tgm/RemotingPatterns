@@ -1,6 +1,8 @@
 package comm;
 
 
+import java.util.ArrayList;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,13 +30,17 @@ public class CommunicationTest {
 		//p2.setServer(bridge.getServerSide());
 		//p2.setClient(unused.getClientSide());
 
-		comm.ProtocolPlugin cplugin1 = new comm.socket.SocketPlugin(12345);
-        //comm.ProtocolPlugin cplugin2 = new comm.soap.SOAPPlugin(23456);
-		RequestHandler crh = new RequestHandler(new ProtocolPlugin[]{cplugin1});
 		
-		comm.ProtocolPlugin splugin1 = new comm.socket.SocketPlugin(12300);
-        //comm.ProtocolPlugin splugin2 = new comm.soap.SOAPPlugin(23400);
-		RequestHandler srh = new RequestHandler(new ProtocolPlugin[]{splugin1});
+        
+		ArrayList<ProtocolPlugin> cplugins = new ArrayList<ProtocolPlugin>();
+		cplugins.add(new comm.socket.SocketPlugin(12345));
+		//cplugins.add(new comm.soap.SOAPPlugin(23456));
+		RequestHandler crh = new RequestHandler(cplugins);
+		
+		ArrayList<ProtocolPlugin> splugins = new ArrayList<ProtocolPlugin>();
+		splugins.add(new comm.socket.SocketPlugin(12300));
+		//splugins.add(new comm.soap.SOAPPlugin(23400));
+		RequestHandler srh = new RequestHandler(splugins);
 		Thread.sleep(1000);
 		
 		MockCommunication con =  new MockCommunication();

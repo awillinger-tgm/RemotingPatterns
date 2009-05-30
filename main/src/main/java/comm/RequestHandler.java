@@ -1,17 +1,22 @@
 package comm;
 
+import java.util.List;
+
 public class RequestHandler {
 
-	ProtocolPlugin[] plugins;
+	List<ProtocolPlugin> plugins;
 	Invoker invoker;
 	Requestor requestor;
 
-	public RequestHandler(ProtocolPlugin[] plugins) throws ProtocolException {
+	public RequestHandler(List<ProtocolPlugin> plugins) throws ProtocolException {
 		this.plugins = plugins;
 		// invoker = new Invoker(plugin.getServer());
-		ProtocolPluginServer[] pluginServer = new ProtocolPluginServer[plugins.length];
-		for (int i = 0; i < plugins.length; i++) {
-			pluginServer[i] = plugins[i].getServer();
+		int i = 0;
+		ProtocolPluginServer[] pluginServer = new ProtocolPluginServer[plugins.size()];
+		
+		for (ProtocolPlugin protocolPlugin : plugins) {
+			pluginServer[i] = protocolPlugin.getServer();
+			i++;
 		}
 		invoker = new Invoker(pluginServer);
 		// requestor = new Requestor(plugin.getClient());

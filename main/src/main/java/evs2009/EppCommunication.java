@@ -20,7 +20,11 @@ public class EppCommunication implements Communication {
 	//TODO: configure injection of peerimpl
 	private static TransactionManager tm = new TransactionManager(new PeerImpl());
 
-	JAXBContext context;
+	public EppCommunication() throws Exception {
+		context = JAXBContext.newInstance(Epp.class);
+	}
+	
+	private JAXBContext context;
 
 	@Override
 	public byte[] invoke(byte[] request) {
