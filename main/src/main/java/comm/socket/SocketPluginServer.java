@@ -1,12 +1,6 @@
 package comm.socket;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -16,7 +10,8 @@ import java.util.concurrent.Executors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import comm.*;
+import comm.Invoker;
+import comm.ProtocolPluginServer;
 
 /**
  * 
@@ -61,7 +56,7 @@ public class SocketPluginServer implements Runnable, ProtocolPluginServer {
 							long size = SocketPlugin.readSize(is);
 							byte[] output = new byte[(int) size];
 
-							int i = is.read(output, 0, output.length);
+							is.read(output, 0, output.length);
 							
 							byte[] handleRequest = invoker.handleRequest(output);
 							log.info("Server sends bytes:" + handleRequest.length);
