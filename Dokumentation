@@ -12,6 +12,9 @@ Annahmen:
 *) Explizites beenden einer Session notwendig (kein Timeout vorerst) und damit auch kein automatischer rollback nötig
 
 
+TransactionManager hat eine große Collection mit gelockten Resources.Führt nach Commit die jeweiligen Befehle am Peer aus. Liefert SessionPeer anhand des SessionToken zurück. Bearbeitete Ressourcen sind in der obengenannten Collection dabei. DIRTY_READ für Lesezugriffe. 
+SessionPeer - kommuniziert mit TransaktionManager und nicht direkt mit Peer. Hier läuft concurrent code ab.
+SessionToken - Jeder Session wird beim Login ein Token zugewiesen, dass bei jedem Kommando mitübertragen wird. 
 
 Testfälle:
 Possible Errors:
