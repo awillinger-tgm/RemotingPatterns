@@ -14,6 +14,11 @@ public class EppErrorException extends RuntimeException {
 	private static final long serialVersionUID = 5526126551270831971L;
 	private final EppErrorCode code;
 
+	public EppErrorException(EppErrorCode code) {
+		super(codeMessage(code, ""));
+		this.code = code;
+	}
+	
 	public EppErrorException(EppErrorCode code, String message) {
 		super(codeMessage(code, message));
 		this.code = code;

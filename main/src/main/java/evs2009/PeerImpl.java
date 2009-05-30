@@ -96,4 +96,11 @@ public class PeerImpl implements Peer {
 		return this.transferRequests.get(identifier);
 	}
 
+	public Resource getResource(String name) {
+		return resources.get(name);
+	}
+	public void updateResource(String name, Resource resource) {
+		resources.put(name, resource);
+	} 
+
 }
