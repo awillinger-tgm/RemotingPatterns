@@ -13,12 +13,30 @@ public class ObjectData {
 	@XmlElement(namespace = "urn:ietf:params:xml:ns:obj")
 	private byte[] data;
 
+	@XmlElement(namespace = "urn:ietf:params:xml:ns:obj")
+	private String roid;
+
+	public void setRoid(String roid) {
+		this.roid = roid;
+	}
+
 	public ObjectData() {
+	}
+
+	public ObjectData(String name) {
+		this.name = name;
 	}
 
 	public ObjectData(String name, byte[] data) {
 		super();
 		this.name = name;
 		this.data = data;
+	}
+
+	public ObjectData(String name, byte[] data, String roid) {
+		super();
+		this.name = name;
+		this.data = data;
+		this.roid = roid;
 	}
 }
