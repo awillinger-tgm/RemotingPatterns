@@ -7,14 +7,14 @@ import java.util.HashMap;
 import com.csvreader.CsvReader;
 
 /**
- * 
+ *
  * @author Michael Borko <michael@borko.at> Florian Motlik <flomotlik@gmail.com>
  *         Michael Greifeneder <mikegr@gmx.net>
- * 
+ *
  */
 public class Lookup {
 
-	private HashMap<String, String> peers = new HashMap<String, String>();
+	private final HashMap<String, String> peers = new HashMap<String, String>();
 
 	public Lookup() {
 		CsvReader reader;
@@ -43,17 +43,20 @@ public class Lookup {
 	}
 
 	public ClientPeer getReference(String name) {
-		
+
 		String address = peers.get(name);
 		String protocol = address.substring(0, address.indexOf("://"));
 		String location = address.substring(address.indexOf("://") + 3);
 
+		/*
 		if( protocol.equals("soap") )
 			return new ClientPeer(new SOAPRequestHandler(location));
 		else if ( protocol.equals("socket"))
 			return new ClientPeer(new SocketRequestHandler(location));
 		else
+		*/
 			return null;
+
 	}
 
 }

@@ -3,6 +3,8 @@ package evs2009;
 import org.junit.Before;
 import org.junit.Test;
 
+import comm.Communication;
+
 public class RequestorTest {
 
 	private ClientPeer clientPeer = null;
@@ -17,11 +19,12 @@ public class RequestorTest {
 		clientPeer.login("TestUser", "TestPWD");
 	}
 
-	private static final class OutputRequestHandler implements RequestHandler {
+	private static final class OutputRequestHandler implements Communication {
 
 		@Override
-		public void send(byte[] epp) {
-			System.out.println(new String(epp));
+		public byte[] invoke(byte[] request) {
+			System.out.println(new String(request));
+			return null;
 		}
 
 	}

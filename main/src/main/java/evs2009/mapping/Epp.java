@@ -12,6 +12,10 @@ public class Epp {
 
 	private Response response;
 
+	public Response getResponse() {
+		return response;
+	}
+
 	public Epp(Command command) {
 		this.command = command;
 	}

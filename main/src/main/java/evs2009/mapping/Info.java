@@ -9,6 +9,10 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Info {
 
+	public ObjectData getInfo() {
+		return info;
+	}
+
 	@XmlElement(namespace = "urn:ietf:params:xml:ns:obj")
 	private ObjectData info;
 

@@ -8,6 +8,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Result {
+	public String getCode() {
+		return code;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
 	@XmlAttribute
 	private String code;
 

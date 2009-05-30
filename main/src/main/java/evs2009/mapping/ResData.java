@@ -11,6 +11,18 @@ public class ResData {
 	@XmlElement(namespace = "urn:ietf:params:xml:ns:obj")
 	private CheckData chkData;
 
+	public CheckData getChkData() {
+		return chkData;
+	}
+
+	public ObjectData getCreData() {
+		return creData;
+	}
+
+	public ObjectData getInfData() {
+		return infData;
+	}
+
 	@XmlElement(namespace = "urn:ietf:params:xml:ns:obj")
 	private ObjectData creData;
 
@@ -26,7 +38,7 @@ public class ResData {
 		super();
 		this.creData = creData;
 	}
-	
+
 	public ResData(ObjectData infData, String roid){
 		this.infData = infData;
 		infData.setRoid(roid);

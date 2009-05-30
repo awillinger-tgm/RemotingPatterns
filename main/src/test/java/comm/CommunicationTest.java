@@ -23,23 +23,24 @@ public class CommunicationTest {
 		MockPlugin p1 = new MockPlugin();
 		p1.setClient(bridge.getClientSide());
 		p1.setServer(unused.getServerSide());
-		
+
 		MockPlugin p2 = new MockPlugin();
 		p2.setServer(bridge.getServerSide());
 		p2.setClient(unused.getClientSide());
-		
+
 		RequestHandler crh = new RequestHandler(p1);
 		RequestHandler srh = new RequestHandler(p2);
-		
+
 		MockCommunication con =  new MockCommunication();
-		
+
 		srh.register("test", con);
-		
+
 		AbsoluteObjectReference aor = Lookup.lookup("socket://localhost", Communication.class.getName(), "test");
 		Communication remote = (Communication) crh.getObject(aor);
-		
+
 		String testMsg = "Hallo";
 		byte[] response = remote.invoke(testMsg.getBytes());
 		assertEquals(testMsg, new String(response));
+
 	}
 }

@@ -1,5 +1,11 @@
 package evs2009;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Date;
 /**
  *
@@ -8,7 +14,7 @@ import java.util.Date;
  *			Michael Greifeneder <mikegr@gmx.net>
  *
  */
-public class MetaData {
+public class MetaData implements Serializable {
 
 	private String name;
 	private String owner;
@@ -16,6 +22,11 @@ public class MetaData {
 	private String lastModifier;
 	private Date lastModifcation;
 	private long size;
+
+
+	public MetaData() {
+		super();
+	}
 
 	public MetaData(String name, String owner, long size) {
 		creationDate = new Date();
@@ -126,5 +137,22 @@ public class MetaData {
 		return true;
 	}
 
-	
+	public static byte[] serialize(MetaData data) throws IOException {
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		ObjectOutputStream oos = new ObjectOutputStream(bos);
+		oos.writeObject(data);
+		oos.flush();
+		oos.close();
+		return bos.toByteArray();
+	}
+
+	public static MetaData unserialize(byte[] data) throws IOException, ClassNotFoundException {
+		ByteArrayInputStream bis = new ByteArrayInputStream(data);
+		ObjectInputStream ois  = new ObjectInputStream(bis);
+		MetaData md = (MetaData) ois.readObject();
+		ois.close();
+		return md;
+	}
+
+
 }

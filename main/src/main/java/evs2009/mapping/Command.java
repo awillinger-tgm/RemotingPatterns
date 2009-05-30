@@ -21,6 +21,34 @@ public class Command {
 
 	private Check check;
 
+	public String getLogout() {
+		return logout;
+	}
+
+	public Create getCreate() {
+		return create;
+	}
+
+	public Update getUpdate() {
+		return update;
+	}
+
+	public Delete getDelete() {
+		return delete;
+	}
+
+	public Info getInfo() {
+		return info;
+	}
+
+	public Check getCheck() {
+		return check;
+	}
+
+	public String getClTRID() {
+		return clTRID;
+	}
+
 	private String clTRID;
 
 	public Command() {
@@ -31,9 +59,10 @@ public class Command {
 		this.login = login;
 	}
 
-	public Command(Check check) {
+	public Command(Check check, String clTRID) {
 		super();
 		this.check = check;
+		this.clTRID = clTRID;
 	}
 
 	public Command(Create create, String clTRID) {
@@ -79,5 +108,29 @@ public class Command {
 	public Command setClTRID(String clTRID) {
 		this.clTRID = clTRID;
 		return this;
+	}
+
+	public CommandType getCommandType() {
+		if(this.login != null){
+			return CommandType.Login;
+		}else if (this.logout != null) {
+			return CommandType.Logout;
+		}else if (this.create != null) {
+			return CommandType.Create;
+		}else if (this.info != null) {
+			return CommandType.Info;
+		}else if (this.update != null) {
+			return CommandType.Update;
+		}else if (this.delete != null) {
+			return CommandType.Delete;
+		}
+		else if (this.check != null) {
+			return CommandType.Check;
+		}
+		return CommandType.Unknown;
+	}
+
+	public static enum CommandType{
+		Login, Logout, Create, Info, Update ,Delete, Transfer, Check, Unknown
 	}
 }
