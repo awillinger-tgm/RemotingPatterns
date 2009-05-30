@@ -9,8 +9,8 @@ public class Application {
 		//TODO: handle nameList
 		this.peerId = peerId;
 
-		ProtocolPlugin plugin = new SocketPlugin();
-
+		comm.ProtocolPlugin plugin1 = new comm.socket.SocketPlugin(12345);
+        comm.ProtocolPlugin plugin2 = new comm.soap.SOAPPlugin(23456);
 	}
 
 	public void run() {

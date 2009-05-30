@@ -25,7 +25,7 @@ public class MockBridge {
 				MockBridge.this.callback = callback; 
 			}
 			@Override
-			public void openServerPort() throws ProtocolException {
+			public void openServer() throws ProtocolException {
 				//ignore
 			}
 		};

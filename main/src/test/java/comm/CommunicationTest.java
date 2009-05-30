@@ -28,18 +28,25 @@ public class CommunicationTest {
 		p2.setServer(bridge.getServerSide());
 		p2.setClient(unused.getClientSide());
 		
-		RequestHandler crh = new RequestHandler(p1);
-		RequestHandler srh = new RequestHandler(p2);
+		comm.ProtocolPlugin cplugin1 = new comm.socket.SocketPlugin(12345);
+        //comm.ProtocolPlugin cplugin2 = new comm.soap.SOAPPlugin(23456);
+		RequestHandler crh = new RequestHandler(new ProtocolPlugin[]{cplugin1});
+		
+		comm.ProtocolPlugin splugin1 = new comm.socket.SocketPlugin(12300);
+        //comm.ProtocolPlugin splugin2 = new comm.soap.SOAPPlugin(23400);
+		RequestHandler srh = new RequestHandler(new ProtocolPlugin[]{splugin1});
 		
 		MockCommunication con =  new MockCommunication();
 		
-		srh.register("test", con);
+		srh.register("comTest", con);
 		
-		AbsoluteObjectReference aor = Lookup.lookup("socket://localhost", Communication.class.getName(), "test");
+		Lookup lup = new Lookup("");
+		AbsoluteObjectReference aor = lup.lookup("test2");
 		Communication remote = (Communication) crh.getObject(aor);
 		
 		String testMsg = "Hallo";
 		byte[] response = remote.invoke(testMsg.getBytes());
+		
 		assertEquals(testMsg, new String(response));
 	}
 }
