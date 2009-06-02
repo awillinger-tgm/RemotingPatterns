@@ -13,9 +13,6 @@ import javax.xml.bind.Unmarshaller;
 
 import org.junit.Test;
 
-import com.sun.xml.internal.bind.v2.runtime.Name;
-import com.sun.xml.internal.ws.util.xml.CDATA;
-
 import evs2009.mapping.CheckData.CheckDataInternal;
 import evs2009.mapping.CheckData.CheckDataName;
 
