@@ -1,103 +1,121 @@
 package evs2009;
 
-
 /**
- * This class is an interceptor for Peer, providing session and transaction management.
- * @author  Michael Borko<michael@borko.at>,
- *          Florian Motlik<flomotlik@gmail.com>,
- *			Michael Greifeneder <mikegr@gmx.net>
- *
+ * This class is an interceptor for Peer, providing session and transaction
+ * management.
+ * 
+ * @author Michael Borko<michael@borko.at>, Florian Motlik<flomotlik@gmail.com>,
+ *         Michael Greifeneder <mikegr@gmx.net>
+ * 
  */
-public class SessionPeer implements Peer{
+public class SessionPeer implements Peer {
 
-	private PeerImpl localPeer;
+	private ServerPeer localPeer;
 	private TransactionManager transactionManager;
 	private String token;
 	private boolean loggedIn = false;
-	
-	public SessionPeer(TransactionManager tm, String token, PeerImpl localPeer) {
+
+	public SessionPeer(TransactionManager tm, String token, ServerPeer localPeer) {
 		this.localPeer = localPeer;
 		this.transactionManager = tm;
 		this.token = token;
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see evs2009.Peer#check(java.lang.String)
 	 */
 	@Override
 	public MetaData check(String name) {
-		if (!loggedIn) throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
+		if (!loggedIn)
+			throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
 		return localPeer.check(name);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see evs2009.Peer#create(java.lang.String, byte[])
 	 */
 	@Override
 	public void create(final String name, final byte[] data) {
-		if (!loggedIn) throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
-		transactionManager.addAction(token, new CreateAction(transactionManager, name, data));
+		if (!loggedIn)
+			throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
+		CreateAction createAction = new CreateAction(
+				transactionManager, name, data);
+		createAction.action();
+		transactionManager.addAction(token, createAction);
 	}
-	
+
 	private static class CreateAction implements Action {
-		
+
 		private String name;
 		private byte[] data;
 		private Peer peer;
 		private TransactionManager tm;
-		private MetaData updatedMetaData; 
-		public CreateAction(TransactionManager tm,  String name, byte[] data) {
+		private MetaData updatedMetaData;
+
+		public CreateAction(TransactionManager tm, String name, byte[] data) {
 			this.peer = tm.getPeer();
 			this.name = name;
 			this.data = data;
 			this.tm = tm;
 		}
-		
+
 		@Override
 		public void action() {
 			tm.lock(name);
 			try {
 				peer.create(name, data);
 				updatedMetaData = peer.check(name);
-					
-			} finally  {
-				tm.unlock(name);	
+
+			} finally {
+				tm.unlock(name);
 			}
 		}
-		
+
 		@Override
 		public void rollback() {
+			if (updatedMetaData == null) {
+				return;
+			}
 			if (!updatedMetaData.equals(peer.check(name))) {
-				throw new EppErrorException(EppErrorCode.ROLLBACK_FAILED, "Resource modified meanwhile");
+				throw new EppErrorException(EppErrorCode.ROLLBACK_FAILED,
+						"Resource modified meanwhile");
 			}
 			peer.delete(name);
 		}
-		
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see evs2009.Peer#delete(java.lang.String)
 	 */
 	@Override
 	public void delete(String name) {
-		if (!loggedIn) throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
-		transactionManager.addAction(token, new DeleteAction(transactionManager, name));
+		if (!loggedIn)
+			throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
+		transactionManager.addAction(token, new DeleteAction(
+				transactionManager, name));
 	}
-	
+
 	private static class DeleteAction implements Action {
 
 		private String name;
-		private PeerImpl peer;
+		private ServerPeer peer;
 		private TransactionManager tm;
 		private Resource resource;
 
-		
 		public DeleteAction(TransactionManager tm, String name) {
 			super();
 			this.name = name;
 			this.peer = tm.getPeer();
 			this.tm = tm;
 		}
-		 
+
 		@Override
 		public void action() {
 			try {
@@ -108,22 +126,25 @@ public class SessionPeer implements Peer{
 				tm.unlock(name);
 			}
 		}
+
 		@Override
 		public void rollback() {
 			try {
 				tm.lock(name);
 				if (peer.getResource(name) != null) {
-					throw new EppErrorException(EppErrorCode.ROLLBACK_FAILED, "Resource meanwhile modified");
+					throw new EppErrorException(EppErrorCode.ROLLBACK_FAILED,
+							"Resource meanwhile modified");
 				}
 				peer.updateResource(name, resource);
-			} finally  {
+			} finally {
 				tm.unlock(name);
 			}
 		}
 	}
-	
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see evs2009.Peer#login(java.lang.String, java.lang.String)
 	 */
 	@Override
@@ -132,68 +153,87 @@ public class SessionPeer implements Peer{
 		loggedIn = true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see evs2009.Peer#logout()
 	 */
 	@Override
 	public void logout() {
+		this.localPeer.logout();
 		loggedIn = false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see evs2009.Peer#read(java.lang.String)
 	 */
 	@Override
 	public byte[] read(String name) {
-		if (!loggedIn) throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
-		//TODO: Do we need lock? transactionManager.lock(name);
+		if (!loggedIn)
+			throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
+		// TODO: Do we need lock? transactionManager.lock(name);
 		return localPeer.read(name);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see evs2009.Peer#transferCancel(java.lang.String)
 	 */
 	@Override
 	public void transferCancel(String token) {
-		if (!loggedIn) throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
-		
+		if (!loggedIn)
+			throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
+
 	}
 
-	/* (non-Javadoc)
-	 * @see evs2009.Peer#transferExecute(java.lang.String, evs2009.MetaData, byte[])
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see evs2009.Peer#transferExecute(java.lang.String, evs2009.MetaData,
+	 * byte[])
 	 */
 	@Override
 	public void transferExecute(String token, MetaData info, byte[] data) {
-		if (!loggedIn) throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
+		if (!loggedIn)
+			throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see evs2009.Peer#transferRequest(java.lang.String, java.lang.String)
 	 */
 	@Override
 	public void transferRequest(String name, String token) {
-		if (!loggedIn) throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
-		
+		if (!loggedIn)
+			throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see evs2009.Peer#update(java.lang.String, byte[])
 	 */
 	@Override
 	public void update(String name, byte[] data) {
-		if (!loggedIn) throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
-		transactionManager.addAction(token, new UpdateAction(transactionManager, name, data));
+		if (!loggedIn)
+			throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
+		transactionManager.addAction(token, new UpdateAction(
+				transactionManager, name, data));
 	}
-	
+
 	private static class UpdateAction implements Action {
 		private TransactionManager tm;
 		private String name;
-		
-	    private Resource resource;
-	    private byte[] newData;
-	    private PeerImpl peer;
-	    
-	    
+
+		private Resource resource;
+		private byte[] newData;
+		private ServerPeer peer;
+
 		public UpdateAction(TransactionManager tm, String name, byte[] newData) {
 			super();
 			this.tm = tm;
@@ -201,9 +241,10 @@ public class SessionPeer implements Peer{
 			this.name = name;
 			this.newData = newData;
 		}
+
 		@Override
 		public void action() {
-			tm.lock(name);	
+			tm.lock(name);
 			try {
 				resource = peer.getResource(name);
 				peer.update(name, newData);
@@ -212,16 +253,17 @@ public class SessionPeer implements Peer{
 			}
 
 		}
+
 		@Override
 		public void rollback() {
 			tm.lock(name);
 			try {
-				if (! resource.getMetaData().equals(peer.check(name))) {
-					throw new EppErrorException(EppErrorCode.ROLLBACK_FAILED, "Resource modified meanwhile");
+				if (!resource.getMetaData().equals(peer.check(name))) {
+					throw new EppErrorException(EppErrorCode.ROLLBACK_FAILED,
+							"Resource modified meanwhile");
 				}
 				peer.updateResource(name, resource);
-			}
-			finally {
+			} finally {
 				tm.unlock(name);
 			}
 		}

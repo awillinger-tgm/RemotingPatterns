@@ -3,7 +3,7 @@ package evs2009;
 import java.util.Date;
 import java.util.HashMap;
 
-public class PeerImpl implements Peer {
+public class ServerPeerImpl implements ServerPeer {
 
 	private final HashMap<String, Resource> resources = new HashMap<String, Resource>();
 	private final HashMap<String, TransferRequest> transferRequests = new HashMap<String, TransferRequest>();
@@ -12,6 +12,9 @@ public class PeerImpl implements Peer {
 	private String self;
 	private String other;
 
+	/* (non-Javadoc)
+	 * @see evs2009.ServerPeerImpl#check(java.lang.String)
+	 */
 	@Override
 	public MetaData check(String name) {
 		Resource resource = resources.get(name);
@@ -21,6 +24,9 @@ public class PeerImpl implements Peer {
 		return resource.getMetaData();
 	}
 
+	/* (non-Javadoc)
+	 * @see evs2009.ServerPeerImpl#create(java.lang.String, byte[])
+	 */
 	@Override
 	public void create(String name, byte[] data) {
 		if (resources.containsKey(name)) {
@@ -33,6 +39,9 @@ public class PeerImpl implements Peer {
 		resources.put(name, resource);
 	}
 
+	/* (non-Javadoc)
+	 * @see evs2009.ServerPeerImpl#delete(java.lang.String)
+	 */
 	@Override
 	public void delete(String name) {
 
@@ -43,16 +52,25 @@ public class PeerImpl implements Peer {
 		resources.remove(name);
 	}
 
+	/* (non-Javadoc)
+	 * @see evs2009.ServerPeerImpl#login(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void login(String username, String pw) {
 		// accepting everyone
 	}
 
+	/* (non-Javadoc)
+	 * @see evs2009.ServerPeerImpl#logout()
+	 */
 	@Override
 	public void logout() {
 		// ignore
 	}
 
+	/* (non-Javadoc)
+	 * @see evs2009.ServerPeerImpl#read(java.lang.String)
+	 */
 	@Override
 	public byte[] read(String name) {
 		Resource resource = resources.get(name);
@@ -62,6 +80,9 @@ public class PeerImpl implements Peer {
 		return resource.getData();
 	}
 
+	/* (non-Javadoc)
+	 * @see evs2009.ServerPeerImpl#transferCancel(java.lang.String)
+	 */
 	@Override
 	public void transferCancel(String token) {
 		if (transferRequests.containsKey(token)) {
@@ -70,16 +91,25 @@ public class PeerImpl implements Peer {
 		transferRequests.remove(token);
 	}
 
+	/* (non-Javadoc)
+	 * @see evs2009.ServerPeerImpl#transferExecute(java.lang.String, evs2009.MetaData, byte[])
+	 */
 	@Override
 	public void transferExecute(String token, MetaData info, byte[] data) {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see evs2009.ServerPeerImpl#transferRequest(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void transferRequest(String name, String token) {
 		transferRequests.put(token, new TransferRequest(other, name, token));
 	}
 
+	/* (non-Javadoc)
+	 * @see evs2009.ServerPeerImpl#update(java.lang.String, byte[])
+	 */
 	@Override
 	public void update(String name, byte[] data) {
 		Resource resource = resources.get(name);
@@ -92,13 +122,22 @@ public class PeerImpl implements Peer {
 		metaData.setSize(data.length);
 	}
 
+	/* (non-Javadoc)
+	 * @see evs2009.ServerPeerImpl#getTransferRequest(java.lang.String)
+	 */
 	public TransferRequest getTransferRequest(String identifier) {
 		return this.transferRequests.get(identifier);
 	}
 
+	/* (non-Javadoc)
+	 * @see evs2009.ServerPeerImpl#getResource(java.lang.String)
+	 */
 	public Resource getResource(String name) {
 		return resources.get(name);
 	}
+	/* (non-Javadoc)
+	 * @see evs2009.ServerPeerImpl#updateResource(java.lang.String, evs2009.Resource)
+	 */
 	public void updateResource(String name, Resource resource) {
 		resources.put(name, resource);
 	} 

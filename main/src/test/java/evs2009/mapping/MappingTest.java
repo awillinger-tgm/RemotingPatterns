@@ -65,7 +65,6 @@ public class MappingTest {
 		assertTrue(epp2.getCommand().isLogout());
 	}
 
-
 	@Test
 	public void testCheckReturn() {
 		CheckDataInternal internal = new CheckDataInternal(new CheckDataName(
@@ -109,7 +108,8 @@ public class MappingTest {
 	public void testInfo() {
 		Epp epp = new Epp(new Command(new Info(new ObjectData("infoName",
 				new byte[] { 1, 2, 3, 4, 5 })), "someId"));
-		marshalUnmarshal(epp);
+		Epp marshalUnmarshal = marshalUnmarshal(epp);
+		epp.getCommand().getInfo().getInfo().getOnlyMetadata();
 	}
 
 	@Test

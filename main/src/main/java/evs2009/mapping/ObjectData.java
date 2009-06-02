@@ -23,6 +23,9 @@ public class ObjectData {
 	}
 
 	public Boolean getOnlyMetadata() {
+		if (onlyMetadata == null) {
+			return false;
+		}
 		return onlyMetadata;
 	}
 
@@ -45,7 +48,7 @@ public class ObjectData {
 	public ObjectData(String name) {
 		this.name = name;
 	}
-	public ObjectData(String name, boolean onlyMetaData) {
+	public ObjectData(String name, boolean onlyMetadata) {
 		this.name = name;
 		this.onlyMetadata = onlyMetadata;
 	}

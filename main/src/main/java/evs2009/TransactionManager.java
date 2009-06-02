@@ -10,8 +10,8 @@ import java.util.UUID;
 
 public class TransactionManager {
 
-	private final PeerImpl localPeer;
-	public TransactionManager(PeerImpl localPeer) {
+	private final ServerPeer localPeer;
+	public TransactionManager(ServerPeer localPeer) {
 		this.localPeer = localPeer;
 	}
 	private final Map<String, SessionPeer> sessions = new HashMap<String, SessionPeer>();
@@ -44,17 +44,17 @@ public class TransactionManager {
 		}
 	}
 
-	public void lock(String resource) {
+	public synchronized void lock(String resource) {
 		if (locks.contains(resource)) {
 			throw new EppErrorException(EppErrorCode.RESOURCE_LOCKED);
 		}
 		locks.add(resource);
 	}
-	public void unlock(String resource) {
+	public synchronized void unlock(String resource) {
 		locks.remove(resource);
 	}
 
-	public PeerImpl getPeer() {
+	public ServerPeer getPeer() {
 		return localPeer;
 	}
 

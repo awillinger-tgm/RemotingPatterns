@@ -9,14 +9,14 @@ import org.junit.Test;
 
 public class CRUDTests {
 	private Peer serverPeerInterface;
-	private PeerImpl localPeer;
+	private ServerPeer localPeer;
 	private final String identifier = "someString";
 	private final String testString = "testString";
 
 	@Before
 	public void setUp() {
 		this.serverPeerInterface = null;
-		this.localPeer = new PeerImpl();
+		this.localPeer = new ServerPeerImpl();
 		serverPeerInterface.login(Helper.correctUserName,
 				Helper.correctPassword);
 	}

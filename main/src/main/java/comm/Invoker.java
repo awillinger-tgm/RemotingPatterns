@@ -12,8 +12,6 @@ import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import comm.socket.SocketPlugin;
-
 public class Invoker {
 
 	private static final Logger log = LoggerFactory.getLogger(Invoker.class);
