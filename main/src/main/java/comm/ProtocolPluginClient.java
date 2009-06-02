@@ -14,7 +14,7 @@ public interface ProtocolPluginClient {
 	 * @param peer
 	 * @param port
 	 */
-	public void configure(String peer, int port) throws ProtocolException;
+	public void configure(String location) throws ProtocolException;
 
 	/**
 	 * sends and receives response

@@ -3,10 +3,13 @@ package comm.soap;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+import javax.jws.soap.SOAPBinding.ParameterStyle;
 
 import comm.Invoker;
 
 @WebService
+@SOAPBinding(parameterStyle=ParameterStyle.BARE)
 public class CommunicationChannel {
 
 	private Invoker invoker;
@@ -20,12 +23,7 @@ public class CommunicationChannel {
 	}
 
 	@WebMethod
-	public String get(@WebParam(name="in") String in) {
-		return in;
-	}
-	/*
 	public byte[] invoke(byte[] request) {
 		return invoker.handleRequest(request);
 	}
-	*/
 }

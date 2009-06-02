@@ -53,8 +53,8 @@ public class AbsoluteObjectReference {
 	 *            the endpoint to set
 	 */
 	public void setEndpoint(String endpoint) {
-		this.protocol = endpoint.substring(0, endpoint.indexOf("://"));
-		this.location = endpoint.substring(endpoint.indexOf("://") + 3);
+		this.protocol = endpoint.substring(0, endpoint.indexOf("::"));
+		this.location = endpoint.substring(endpoint.indexOf("::") + 2);
 
 		if (protocol.equals("soap"))
 			this.setPluginClient(new SOAPPluginClient());
@@ -67,16 +67,8 @@ public class AbsoluteObjectReference {
 	}
 
 	public void setPluginClient(ProtocolPluginClient plugin) {
-		String[] splitted = this.location.split(":");
-		String peer = splitted[0];
-		int port = Integer.parseInt(splitted[1]);
-		System.out
-				.println("AOR :: Configuring clientpeer plugin \""
-						+ this.protocol + "\" to host: " + peer + " "
-						+ "port: " + port);
-
 		try {
-			plugin.configure(peer, port);
+			plugin.configure(location);
 		} catch (ProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -7,7 +7,7 @@ public class MockBridge {
 	public ProtocolPluginClient getClientSide() {
 		return new ProtocolPluginClient() {
 			@Override
-			public void configure(String peer, int port)
+			public void configure(String location)
 			throws ProtocolException {
 				// ignore
 			}
