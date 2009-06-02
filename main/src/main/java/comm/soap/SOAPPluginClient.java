@@ -36,20 +36,8 @@ public class SOAPPluginClient implements ProtocolPluginClient {
 	@Override
 	public byte[] sendData(AbsoluteObjectReference aor, byte[] data) throws ProtocolException {
 		try {
-			InputStream is = socket.getInputStream();
-			OutputStream os = socket.getOutputStream();
-			os.write(String.valueOf(data.length).getBytes());
-			os.write("\n".getBytes());
-			os.write(data);
-			os.flush();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-			int size = Integer.parseInt(reader.readLine());
-			log.debug("Size: " + size);
-			byte[] output = new byte[size];
-			int i = is.read(output, 0, output.length);
-			log.debug("read: " + i + "Data:" + new String(output, 0, i));
-			return output; 
 
+			return null;
 		} catch (Exception e) {
 			throw new ProtocolException(e);
 		}
