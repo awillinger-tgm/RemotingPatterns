@@ -1,6 +1,5 @@
 package evs2009;
 
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.LocalAttribute;
 
 /**
  * This class is an interceptor for Peer, providing session and transaction management.

@@ -3,8 +3,6 @@ package evs2009;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 
-import com.sun.xml.internal.ws.api.addressing.WSEndpointReference.Metadata;
-
 import comm.Communication;
 
 import evs2009.mapping.Epp;

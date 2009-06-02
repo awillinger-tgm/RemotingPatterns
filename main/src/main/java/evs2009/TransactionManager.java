@@ -8,8 +8,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import com.sun.swing.internal.plaf.synth.resources.synth;
-
 public class TransactionManager {
 
 	private final PeerImpl localPeer;
