@@ -1,7 +1,10 @@
 package comm;
 
+import java.util.List;
+
 import comm.soap.SOAPPluginClient;
 import comm.socket.SocketPluginClient;
+import evs2009.PeerReader.PeerEndpoint;
 
 public class AbsoluteObjectReference {
 
@@ -52,10 +55,10 @@ public class AbsoluteObjectReference {
 	 * @param endpoint
 	 *            the endpoint to set
 	 */
-	public void setEndpoint(String endpoint) {
-		this.protocol = endpoint.substring(0, endpoint.indexOf("::"));
-		this.location = endpoint.substring(endpoint.indexOf("::") + 2);
-
+	public void setEndpoints(List<PeerEndpoint> endpoints) {
+		this.protocol = endpoints.get(0).getProtocol();
+		this.location = endpoints.get(0).getLocation();
+		
 		if (protocol.equals("soap"))
 			this.setPluginClient(new SOAPPluginClient());
 		else if (protocol.equals("socket"))
