@@ -10,11 +10,30 @@ import javax.xml.bind.annotation.XmlType;
 public class ObjectData {
 	@XmlElement(namespace = "urn:ietf:params:xml:ns:obj")
 	private String name;
+	public String getName() {
+		return name;
+	}
+
+	public byte[] getData() {
+		return data;
+	}
+
+	public String getRoid() {
+		return roid;
+	}
+
+	public Boolean getOnlyMetadata() {
+		return onlyMetadata;
+	}
+
 	@XmlElement(namespace = "urn:ietf:params:xml:ns:obj")
 	private byte[] data;
 
 	@XmlElement(namespace = "urn:ietf:params:xml:ns:obj")
 	private String roid;
+
+	@XmlElement(namespace = "urn:ietf:params:xml:ns:obj")
+	private Boolean onlyMetadata;
 
 	public void setRoid(String roid) {
 		this.roid = roid;
@@ -25,6 +44,10 @@ public class ObjectData {
 
 	public ObjectData(String name) {
 		this.name = name;
+	}
+	public ObjectData(String name, boolean onlyMetaData) {
+		this.name = name;
+		this.onlyMetadata = onlyMetadata;
 	}
 
 	public ObjectData(String name, byte[] data) {

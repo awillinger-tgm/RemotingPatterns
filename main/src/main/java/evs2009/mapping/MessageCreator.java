@@ -1,5 +1,15 @@
 package evs2009.mapping;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
+import evs2009.EppErrorCode;
+import evs2009.EppErrorException;
 import evs2009.mapping.CheckData.CheckDataInternal;
 
 public class MessageCreator {
@@ -22,16 +32,15 @@ public class MessageCreator {
 		return MessageCreator.loginResponse(code, message, clTRID, svTRID);
 	}
 
-	public static Epp check(String... names) {
-		return new Epp(new Command(new Check(names)));
-	}
-
-	public static Epp checkResponse(String code, String message, String clTRID,
-			String svTRID, CheckDataInternal... internals) {
-		return new Epp(new Response(new Result(code, message), new ResData(
-				new CheckData(internals)), new TrId(clTRID, svTRID)));
-	}
-
+	/*
+	 * public static Epp check(String clTRID, String... names) { return new
+	 * Epp(new Command(new Check(names), clTRID)); }
+	 * 
+	 * public static Epp checkResponse(String code, String message, String
+	 * clTRID, String svTRID, CheckDataInternal... internals) { return new
+	 * Epp(new Response(new Result(code, message), new ResData( new
+	 * ObjectData(name, data), roid), new TrId(clTRID, svTRID))); }
+	 */
 	public static Epp create(String name, byte[] data, String clTRID) {
 		return new Epp(new Command(new Create(new ObjectData(name, data)),
 				clTRID));
@@ -43,8 +52,9 @@ public class MessageCreator {
 				new ObjectData(name)), new TrId(clTRID, svTRID)));
 	}
 
-	public static Epp info(String name, String clTRID) {
-		return new Epp(new Command(new Info(new ObjectData(name)), clTRID));
+	public static Epp info(String name, String clTRID, boolean onlyMetadata) {
+		return new Epp(new Command(
+				new Info(new ObjectData(name, onlyMetadata)), clTRID));
 	}
 
 	public static Epp infoResponse(String code, String message, String name,
@@ -73,4 +83,43 @@ public class MessageCreator {
 		return new Epp(new Response(new Result(code, message), new TrId(clTRID,
 				svTRID)));
 	}
+
+	public static Epp transferQuery(String name, String clTRID) {
+		return new Epp(new Command(new Transfer("query", new ObjectData(name)),
+				clTRID));
+	}
+
+	public static Epp transferRequest(String name, String clTRID) {
+		return new Epp(new Command(
+				new Transfer("request", new ObjectData(name)), clTRID));
+	}
+
+	public static Epp transferExecute(String name, String clTRID, byte[] data) {
+		return new Epp(new Command(new Transfer("query", new ObjectData(name,
+				data)), clTRID));
+	}
+
+	public static byte[] marshall(JAXBContext context, Epp epp) {
+		try {
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			Marshaller marshaller = context.createMarshaller();
+			marshaller.marshal(epp, out);
+			return out.toByteArray();
+		} catch (JAXBException e) {
+			throw new EppErrorException(EppErrorCode.XML_ERROR, e.getMessage(),
+					e);
+		}
+	}
+
+	public static Epp unmarshall(JAXBContext context, byte[] reponse) {
+		try {
+			ByteArrayInputStream bis = new ByteArrayInputStream(reponse);
+			Unmarshaller unmarshaller = context.createUnmarshaller();
+			return (Epp) unmarshaller.unmarshal(bis);
+		} catch (JAXBException e) {
+			throw new EppErrorException(EppErrorCode.XML_ERROR, e.getMessage(),
+					e);
+		}
+	}
+
 }

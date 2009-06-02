@@ -2,26 +2,27 @@ package evs2009.mapping;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Info {
+public class Transfer {
 
-	public ObjectData getInfo() {
-		return info;
-	}
+	@XmlAttribute
+	private String op;
 
 	@XmlElement(namespace = "urn:ietf:params:xml:ns:obj")
-	private ObjectData info;
+	private ObjectData transfer;
 
-	public Info(ObjectData create) {
-		super();
-		this.info = create;
+	public Transfer() {
+		// TODO Auto-generated constructor stub
 	}
 
-	public Info() {
-		// TODO Auto-generated constructor stub
+	public Transfer(String op, ObjectData transfer) {
+		super();
+		this.op = op;
+		this.transfer = transfer;
 	}
 }

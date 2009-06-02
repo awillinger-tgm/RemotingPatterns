@@ -2,6 +2,8 @@ Annahmen:
 
 *) Transfer Request/Execute ist ein Move Befehl
 *) Transfer Request/Execute sind asynchron (Requests werden in einer Queue gespeichert, vom server später abgearbeitet und dann asynchron an den client geschickt)
+*) Transfer Request übersendet einen Token und Namen von File. Server nimmt Request in eine Queue auf.Sollte ein Request von dem selben Requestor da sein, kommt eine Errormessage. Bei TransferExecute schickt der Server dem Client den Token und die Daten (TransferExecute mit gesetztem Attribut op=Execute) zurück.
+Alle anderen Request für dieses File werden gelöscht. Bei einem TransferCancel wird der Request aus der Queue gelöscht. 
 *) Transfer Execute Fehlermeldungen werden mittels Exception gegeben
 *) Jeder Peer hat einen Identifier (und müsste sich bei einem Naming-Service für seinen Protokolle registrieren. Das erfolgt bei uns statisch. Jeder Peer kennt alle anderen Peers)
 *) Der RequestHandler hat eine Zuordnung von Identifiern zu verwendetetem Protokoll/eindeutiger Netzwerkadresse (in csv gespeichert - Identifier,Protokoll1, Protokoll2, ...)
@@ -12,6 +14,9 @@ Annahmen:
 *) Explizites beenden einer Session notwendig (kein Timeout vorerst) und damit auch kein automatischer rollback nötig
 
 
+TransactionManager hat eine große Collection mit gelockten Resources.Führt nach Commit die jeweiligen Befehle am Peer aus. Liefert SessionPeer anhand des SessionToken zurück. Bearbeitete Ressourcen sind in der obengenannten Collection dabei. DIRTY_READ für Lesezugriffe. 
+SessionPeer - kommuniziert mit TransaktionManager und nicht direkt mit Peer. Hier läuft concurrent code ab.
+SessionToken - Jeder Session wird beim Login ein Token zugewiesen, dass bei jedem Kommando mitübertragen wird. 
 
 Testfälle:
 Possible Errors:

@@ -15,6 +15,10 @@ import javax.xml.bind.annotation.XmlValue;
 public class CheckData {
 	List<CheckDataInternal> cd = new ArrayList<CheckDataInternal>();
 
+	public List<CheckDataInternal> getCd() {
+		return cd;
+	}
+
 	public CheckData(CheckDataInternal... cds) {
 		for (CheckDataInternal cd : cds) {
 			this.cd.add(cd);

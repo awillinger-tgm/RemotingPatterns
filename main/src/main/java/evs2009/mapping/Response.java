@@ -16,6 +16,30 @@ public class Response {
 	public Response() {
 	}
 
+	public Result getResult() {
+		return result;
+	}
+
+	public void setResult(Result result) {
+		this.result = result;
+	}
+
+	public ResData getResData() {
+		return resData;
+	}
+
+	public void setResData(ResData resData) {
+		this.resData = resData;
+	}
+
+	public TrId getTrID() {
+		return trID;
+	}
+
+	public void setTrID(TrId trID) {
+		this.trID = trID;
+	}
+
 	public Response(Result result, TrId trID) {
 		super();
 		this.result = result;

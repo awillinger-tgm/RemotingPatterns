@@ -1,59 +1,31 @@
 package evs2009;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.HashMap;
-
-import com.csvreader.CsvReader;
-
 /**
- * 
+ *
  * @author Michael Borko <michael@borko.at> Florian Motlik <flomotlik@gmail.com>
  *         Michael Greifeneder <mikegr@gmx.net>
- * 
+ *
  */
 public class Lookup {
 
-	private HashMap<String, String> peers = new HashMap<String, String>();
-
-	public Lookup() {
-		CsvReader reader;
+	private comm.Lookup commLookup;
+	private comm.RequestHandler rh;
+	
+	public Lookup(comm.Lookup clookup, comm.RequestHandler rh) {
+		this.commLookup = clookup;
+		this.rh = rh;
+	}
+	
+	public Peer lookup( String name ) {
+		comm.AbsoluteObjectReference aor = commLookup.lookup(name);
+		comm.Communication remote = null;
 		try {
-			reader = new CsvReader("peers.csv");
-
-			reader.readHeaders();
-
-			while (reader.readRecord()) {
-				String peerID = reader.get("PeerID");
-				String peerAddress = reader.get("PeerAddress");
-
-				// System.out.println("peerID: " + peerID);
-				// System.out.println("peerAddress: " + peerAddress);
-
-				peers.put(peerID, peerAddress);
-			}
-			reader.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
+			remote = (comm.Communication) rh.getObject(aor);
+		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-	public Requestor getReference(String name) {
-		
-		String address = peers.get(name);
-		String protocol = address.substring(0, address.indexOf("://"));
-		String location = address.substring(address.indexOf("://") + 3);
-
-		if( protocol.equals("soap") )
-			return new Requestor(new SOAPRequestHandler(location));
-		else if ( protocol.equals("socket"))
-			return new Requestor(new SocketRequestHandler(location));
-		else
-			return null;
+		return new ClientPeer(remote);
 	}
 
 }
