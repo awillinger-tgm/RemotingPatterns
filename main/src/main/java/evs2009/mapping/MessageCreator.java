@@ -10,7 +10,6 @@ import javax.xml.bind.Unmarshaller;
 
 import evs2009.EppErrorCode;
 import evs2009.EppErrorException;
-import evs2009.mapping.CheckData.CheckDataInternal;
 
 public class MessageCreator {
 	public static Epp login(String user, String password) {
@@ -52,6 +51,7 @@ public class MessageCreator {
 				new ObjectData(name)), new TrId(clTRID, svTRID)));
 	}
 
+	// If onlyMetadata is false, it isn't set in the info Epp object.
 	public static Epp info(String name, String clTRID, boolean onlyMetadata) {
 		return new Epp(new Command(
 				new Info(new ObjectData(name, onlyMetadata)), clTRID));
@@ -85,18 +85,49 @@ public class MessageCreator {
 	}
 
 	public static Epp transferQuery(String name, String clTRID) {
-		return new Epp(new Command(new Transfer("query", new ObjectData(name)),
+		return new Epp(new Command(new Transfer("Query", new ObjectData(name)),
 				clTRID));
+	}
+
+	public static Epp transferQueryResponse(String name, String status,
+			String reId, String acId, String clTRID, String svTRID) {
+		return new Epp(new Response(new Result("1000",
+				"Command completed successfully"), new ResData(new TrnData(
+				name, status, reId, acId)), new TrId(clTRID, svTRID)));
 	}
 
 	public static Epp transferRequest(String name, String clTRID) {
 		return new Epp(new Command(
-				new Transfer("request", new ObjectData(name)), clTRID));
+				new Transfer("Request", new ObjectData(name)), clTRID));
+	}
+
+	// Request and Query Response use exactly the same format.
+	public static Epp transferRequestResponse(String name, String status,
+			String reId, String acId, String clTRID, String svTRID) {
+		return MessageCreator.transferQueryResponse(name, status, reId, acId,
+				clTRID, svTRID);
 	}
 
 	public static Epp transferExecute(String name, String clTRID, byte[] data) {
-		return new Epp(new Command(new Transfer("query", new ObjectData(name,
+		return new Epp(new Command(new Transfer("Execute", new ObjectData(name,
 				data)), clTRID));
+	}
+
+	public static Epp transferExecuteResponse(String code, String message,
+			String clTRID, String svTRID) {
+		return new Epp(new Response(new Result(code, message), new TrId(clTRID,
+				svTRID)));
+	}
+
+	public static Epp transferCancel(String name, String clTRID) {
+		return new Epp(new Command(
+				new Transfer("Request", new ObjectData(name)), clTRID));
+	}
+
+	public static Epp transferCancelResponse(String code, String message,
+			String clTRID, String svTRID) {
+		return new Epp(new Response(new Result(code, message), new TrId(clTRID,
+				svTRID)));
 	}
 
 	public static byte[] marshall(JAXBContext context, Epp epp) {

@@ -42,8 +42,8 @@ public class SessionPeer implements Peer {
 	public void create(final String name, final byte[] data) {
 		if (!loggedIn)
 			throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
-		CreateAction createAction = new CreateAction(
-				transactionManager, name, data);
+		CreateAction createAction = new CreateAction(transactionManager, name,
+				data);
 		createAction.action();
 		transactionManager.addAction(token, createAction);
 	}
@@ -98,8 +98,9 @@ public class SessionPeer implements Peer {
 	public void delete(String name) {
 		if (!loggedIn)
 			throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
-		transactionManager.addAction(token, new DeleteAction(
-				transactionManager, name));
+		DeleteAction action = new DeleteAction(transactionManager, name);
+		transactionManager.addAction(token, action);
+		action.action();
 	}
 
 	private static class DeleteAction implements Action {
@@ -186,7 +187,6 @@ public class SessionPeer implements Peer {
 	public void transferCancel(String token) {
 		if (!loggedIn)
 			throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
-
 	}
 
 	/*
@@ -222,8 +222,9 @@ public class SessionPeer implements Peer {
 	public void update(String name, byte[] data) {
 		if (!loggedIn)
 			throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
-		transactionManager.addAction(token, new UpdateAction(
-				transactionManager, name, data));
+		UpdateAction action = new UpdateAction(transactionManager, name, data);
+		transactionManager.addAction(token, action);
+		action.action();
 	}
 
 	private static class UpdateAction implements Action {

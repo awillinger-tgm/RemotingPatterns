@@ -121,4 +121,12 @@ public class MappingTest {
 								"ABC-12345", "12345-CAB")));
 		marshalUnmarshal(epp);
 	}
+
+	@Test
+	public void testTransferResponse() {
+		Epp epp = new Epp(new Response(new Result("1000", "MEssage"),
+				new ResData(new TrnData("name", "status", "reId", "acId")),
+				new TrId("cl", "svtr")));
+		marshalUnmarshal(epp);
+	}
 }

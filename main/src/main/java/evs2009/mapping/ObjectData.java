@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlType;
 public class ObjectData {
 	@XmlElement(namespace = "urn:ietf:params:xml:ns:obj")
 	private String name;
+
 	public String getName() {
 		return name;
 	}
@@ -48,9 +49,12 @@ public class ObjectData {
 	public ObjectData(String name) {
 		this.name = name;
 	}
+
 	public ObjectData(String name, boolean onlyMetadata) {
 		this.name = name;
-		this.onlyMetadata = onlyMetadata;
+		if (onlyMetadata) {
+			this.onlyMetadata = onlyMetadata;
+		}
 	}
 
 	public ObjectData(String name, byte[] data) {

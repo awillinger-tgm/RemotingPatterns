@@ -25,4 +25,16 @@ public class Transfer {
 		this.op = op;
 		this.transfer = transfer;
 	}
+
+	public TransferType getOp() {
+		return TransferType.valueOf(op);
+	}
+
+	public ObjectData getTransfer() {
+		return transfer;
+	}
+
+	public static enum TransferType {
+		Request, Cancel, Execute;
+	}
 }

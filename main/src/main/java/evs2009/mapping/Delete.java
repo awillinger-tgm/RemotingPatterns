@@ -20,4 +20,9 @@ public class Delete {
 	public Delete() {
 		// TODO Auto-generated constructor stub
 	}
+
+	public ObjectData getDelete() {
+		return delete;
+	}
+
 }

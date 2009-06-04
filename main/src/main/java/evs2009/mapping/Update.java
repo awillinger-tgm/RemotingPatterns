@@ -20,4 +20,9 @@ public class Update {
 	public Update() {
 		// TODO Auto-generated constructor stub
 	}
+
+	public ObjectData getUpdate() {
+		return update;
+	}
+
 }

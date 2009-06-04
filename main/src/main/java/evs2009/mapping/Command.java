@@ -4,6 +4,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
+import evs2009.mapping.Transfer.TransferType;
+
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Command {
@@ -133,11 +135,24 @@ public class Command {
 			return CommandType.Delete;
 		} else if (this.check != null) {
 			return CommandType.Check;
+		} else if (this.transfer != null) {
+			switch (this.transfer.getOp()) {
+			case Cancel:
+				return CommandType.TransferCancel;
+			case Execute:
+				return CommandType.TransferExecute;
+			case Request:
+				return CommandType.TransferRequest;
+			}
 		}
 		return CommandType.Unknown;
 	}
 
+	public Transfer getTransfer() {
+		return transfer;
+	}
+
 	public static enum CommandType {
-		Login, Logout, Create, Info, Update, Delete, Transfer, Check, Unknown
+		Login, Logout, Create, Info, Update, Delete, Check, Unknown, TransferCancel, TransferRequest, TransferExecute
 	}
 }

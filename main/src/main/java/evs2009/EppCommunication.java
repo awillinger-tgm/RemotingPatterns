@@ -43,8 +43,53 @@ public class EppCommunication implements Communication {
 			return logout(epp);
 		case Create:
 			return create(epp);
+		case Delete:
+			return delete(epp);
+		case Update:
+			return update(epp);
+		case TransferCancel:
+			return transferCancel(epp);
+		case TransferExecute:
+//			return transferExecute(epp);
 		}
 		return null;
+	}
+
+//	private byte[] transferExecute(Epp epp) {
+//		SessionPeer session = getSession(epp);
+//		String name = epp.getCommand().getTransfer().getTransfer().getName();
+//		MetaData meta = epp.getCommand().getTransfer().getTransfer().getData();
+//		session.transferExecute(name, );
+//		return MessageCreator.marshall(context, MessageCreator
+//				.transferCancelResponse("1000", "Canceled successfully",
+//						getToken(epp), getToken(epp)));
+//	}
+
+	private byte[] transferCancel(Epp epp) {
+		SessionPeer session = getSession(epp);
+		String name = epp.getCommand().getTransfer().getTransfer().getName();
+		session.transferCancel(name);
+		return MessageCreator.marshall(context, MessageCreator
+				.transferCancelResponse("1000", "Canceled successfully",
+						getToken(epp), getToken(epp)));
+	}
+
+	private byte[] update(Epp epp) {
+		SessionPeer session = getSession(epp);
+		String name = epp.getCommand().getUpdate().getUpdate().getName();
+		byte[] data = epp.getCommand().getUpdate().getUpdate().getData();
+		session.update(name, data);
+		return MessageCreator.marshall(context, MessageCreator.updateResponse(
+				"1000", "Some Message", getToken(epp), getToken(epp)));
+	}
+
+	private byte[] delete(Epp epp) {
+		SessionPeer session = getSession(epp);
+		String name = epp.getCommand().getDelete().getDelete().getName();
+		log.debug("Delete in EPPCommunication called: " + name);
+		session.delete(name);
+		return MessageCreator.marshall(context, MessageCreator.deleteResponse(
+				"1000", "Delete Correct", getToken(epp), getToken(epp)));
 	}
 
 	private byte[] create(Epp epp) {

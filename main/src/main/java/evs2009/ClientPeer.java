@@ -61,8 +61,10 @@ public class ClientPeer implements Peer {
 
 	@Override
 	public void delete(String name) {
-		// TODO Auto-generated method stub
-
+		Epp request = MessageCreator.delete(name, this.token);
+		Epp response = send(request);
+		checkResponse(response, "1000", EppErrorCode.PERMISSION_DENIED,
+				"Delete Failed");
 	}
 
 	@Override
@@ -85,14 +87,19 @@ public class ClientPeer implements Peer {
 
 	@Override
 	public byte[] read(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		Epp request = MessageCreator.info(name, this.token, false);
+		Epp response = send(request);
+		checkResponse(response, "1000", EppErrorCode.Internal_Server_Error,
+				"Read Error");
+		return response.getResponse().getResData().getInfData().getData();
 	}
 
 	@Override
-	public void transferCancel(String token) {
-		// TODO Auto-generated method stub
-
+	public void transferCancel(String name) {
+		Epp request = MessageCreator.transferCancel(name, this.token);
+		Epp response = send(request);
+		checkResponse(response, "1000", EppErrorCode.PERMISSION_DENIED,
+				"Message");
 	}
 
 	@Override
@@ -109,8 +116,10 @@ public class ClientPeer implements Peer {
 
 	@Override
 	public void update(String name, byte[] data) {
-		// TODO Auto-generated method stub
-
+		Epp request = MessageCreator.update(name, data, this.token);
+		Epp response = send(request);
+		checkResponse(response, "1000", EppErrorCode.PERMISSION_DENIED,
+				"Not possible");
 	}
 
 	private Epp send(Epp epp) {
@@ -118,5 +127,4 @@ public class ClientPeer implements Peer {
 		byte[] reponse = comm.invoke(request);
 		return MessageCreator.unmarshall(context, reponse);
 	}
-
 }
