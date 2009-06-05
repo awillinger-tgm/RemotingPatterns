@@ -187,6 +187,7 @@ public class SessionPeer implements Peer {
 	public void transferCancel(String token) {
 		if (!loggedIn)
 			throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
+		localPeer.transferCancel(token);
 	}
 
 	/*
@@ -199,6 +200,7 @@ public class SessionPeer implements Peer {
 	public void transferExecute(String token, MetaData info, byte[] data) {
 		if (!loggedIn)
 			throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
+		localPeer.transferExecute(token, info, data);
 	}
 
 	/*
@@ -210,7 +212,7 @@ public class SessionPeer implements Peer {
 	public void transferRequest(String name, String token) {
 		if (!loggedIn)
 			throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
-
+		localPeer.transferRequest(name, token);
 	}
 
 	/*

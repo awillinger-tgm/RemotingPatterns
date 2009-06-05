@@ -96,9 +96,9 @@ public class MessageCreator {
 				name, status, reId, acId)), new TrId(clTRID, svTRID)));
 	}
 
-	public static Epp transferRequest(String name, String clTRID) {
+	public static Epp transferRequest(String name, String token, String clTRID) {
 		return new Epp(new Command(
-				new Transfer("Request", new ObjectData(name)), clTRID));
+				new Transfer("Request", new ObjectData(name, token.getBytes())), clTRID));
 	}
 
 	// Request and Query Response use exactly the same format.
@@ -108,8 +108,8 @@ public class MessageCreator {
 				clTRID, svTRID);
 	}
 
-	public static Epp transferExecute(String name, String clTRID, byte[] data) {
-		return new Epp(new Command(new Transfer("Execute", new ObjectData(name,
+	public static Epp transferExecute(String token, byte[] metaData, byte[] data, String clTRID) {
+		return new Epp(new Command(new Transfer("Execute", new ObjectData(token, metaData,
 				data)), clTRID));
 	}
 
@@ -121,7 +121,7 @@ public class MessageCreator {
 
 	public static Epp transferCancel(String name, String clTRID) {
 		return new Epp(new Command(
-				new Transfer("Request", new ObjectData(name)), clTRID));
+				new Transfer("Cancel", new ObjectData(name)), clTRID));
 	}
 
 	public static Epp transferCancelResponse(String code, String message,

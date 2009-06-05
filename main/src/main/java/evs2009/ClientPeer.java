@@ -1,7 +1,12 @@
 package evs2009;
 
+import java.io.IOException;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import comm.Communication;
 
@@ -10,6 +15,10 @@ import evs2009.mapping.MessageCreator;
 
 public class ClientPeer implements Peer {
 
+	
+
+	private static final Logger log = LoggerFactory.getLogger(ClientPeer.class);
+	
 	private final Communication comm;
 	private final JAXBContext context;
 
@@ -95,23 +104,31 @@ public class ClientPeer implements Peer {
 	}
 
 	@Override
-	public void transferCancel(String name) {
-		Epp request = MessageCreator.transferCancel(name, this.token);
+	public void transferCancel(String transferToken) {
+		Epp request = MessageCreator.transferCancel(transferToken, this.token);
 		Epp response = send(request);
 		checkResponse(response, "1000", EppErrorCode.PERMISSION_DENIED,
 				"Message");
 	}
 
 	@Override
-	public void transferExecute(String token, MetaData info, byte[] data) {
-		// TODO Auto-generated method stub
-
+	public void transferExecute(String transferToken, MetaData info, byte[] data) {
+		try {
+			byte[] md = MetaData.serialize(info);
+			Epp request = MessageCreator.transferExecute(transferToken , md, data, token);
+			Epp response = send(request);
+			checkResponse(response, "1000", EppErrorCode.PERMISSION_DENIED, "Message");
+		} catch (IOException e) {
+			log.warn("TransferExecute failed", e);
+			throw new EppErrorException(EppErrorCode.SERIALIZATION_ERROR);
+		}
 	}
 
 	@Override
-	public void transferRequest(String name, String token) {
-		// TODO Auto-generated method stub
-
+	public void transferRequest(String name, String transferToken) {
+		Epp request = MessageCreator.transferRequest(name, transferToken, token);
+		Epp response = send(request);
+		checkResponse(response, "1000",  EppErrorCode.PERMISSION_DENIED, "Not possible");
 	}
 
 	@Override

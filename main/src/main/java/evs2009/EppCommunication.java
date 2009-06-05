@@ -47,23 +47,45 @@ public class EppCommunication implements Communication {
 			return delete(epp);
 		case Update:
 			return update(epp);
+		case TransferRequest:
+			return transferRequest(epp);
 		case TransferCancel:
 			return transferCancel(epp);
 		case TransferExecute:
-//			return transferExecute(epp);
+			return transferExecute(epp);
 		}
 		return null;
 	}
 
-//	private byte[] transferExecute(Epp epp) {
-//		SessionPeer session = getSession(epp);
-//		String name = epp.getCommand().getTransfer().getTransfer().getName();
-//		MetaData meta = epp.getCommand().getTransfer().getTransfer().getData();
-//		session.transferExecute(name, );
-//		return MessageCreator.marshall(context, MessageCreator
-//				.transferCancelResponse("1000", "Canceled successfully",
-//						getToken(epp), getToken(epp)));
-//	}
+	private byte[] transferRequest(Epp epp) {
+		SessionPeer session = getSession(epp);
+		String sessionToken = getToken(epp);
+		String name = epp.getCommand().getTransfer().getTransfer().getName();
+		String transferToken = new String(epp.getCommand().getTransfer().getTransfer().getData());
+		session.transferRequest(name, transferToken);
+		return MessageCreator.marshall(context, MessageCreator.transferRequestResponse(name, "1000", "", "", sessionToken, sessionToken));
+	}
+
+	private byte[] transferExecute(Epp epp) {
+		SessionPeer session = getSession(epp);
+		String token = getToken(epp);
+		String name = epp.getCommand().getTransfer().getTransfer().getName();
+		byte[] data  = epp.getCommand().getTransfer().getTransfer().getData();
+		try {
+			MetaData meta = MetaData.unserialize(epp.getCommand().getTransfer().getTransfer().getMetaData());
+			session.transferExecute(name, meta, data);
+			return MessageCreator.marshall(context, MessageCreator
+					.transferCancelResponse("1000", "Execute successfully",
+							getToken(epp), getToken(epp)));
+
+		} catch (Exception e) {
+			log.debug("MetaData.serialize failed", e);
+			return MessageCreator.marshall(context, MessageCreator.infoResponse("2400",
+					"MetaData.serialize failed", name, null, name, token,
+					token));
+ 
+		}
+	}
 
 	private byte[] transferCancel(Epp epp) {
 		SessionPeer session = getSession(epp);

@@ -15,9 +15,14 @@ public class ObjectData {
 		return name;
 	}
 
+	public byte[] getMetaData() {
+		return metaData;
+	}
+	
 	public byte[] getData() {
 		return data;
 	}
+	
 
 	public String getRoid() {
 		return roid;
@@ -32,6 +37,9 @@ public class ObjectData {
 
 	@XmlElement(namespace = "urn:ietf:params:xml:ns:obj")
 	private byte[] data;
+	
+	@XmlElement(namespace = "urn:ietf:params:xml:ns:obj")
+	private byte[] metaData;
 
 	@XmlElement(namespace = "urn:ietf:params:xml:ns:obj")
 	private String roid;
@@ -60,6 +68,13 @@ public class ObjectData {
 	public ObjectData(String name, byte[] data) {
 		super();
 		this.name = name;
+		this.data = data;
+	}
+	
+	public ObjectData(String name, byte[] metaData, byte[] data) {
+		super();
+		this.name = name;
+		this.metaData = metaData;
 		this.data = data;
 	}
 
