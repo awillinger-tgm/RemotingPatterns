@@ -17,15 +17,16 @@ public class EppCommunication implements Communication {
 	private static final Logger log = LoggerFactory
 			.getLogger(EppCommunication.class);
 	// TODO: configure injection of peerimpl
-	private static TransactionManager tm = new TransactionManager(
-			new ServerPeerImpl());
+	private static TransactionManager tm;
 
-	public EppCommunication() throws Exception {
+	public EppCommunication(String name, ITransferRequestManager trm) throws Exception {
 		context = JAXBContext.newInstance(Epp.class);
+		ServerPeerImpl serverPeer = new ServerPeerImpl(name, trm);
+		tm = new TransactionManager(serverPeer);;
+		trm.setServerPeer(serverPeer);
 	}
 
 	EppCommunication(ServerPeer peer) throws Exception {
-		this();
 		tm = new TransactionManager(peer);
 	}
 
@@ -160,26 +161,32 @@ public class EppCommunication implements Communication {
 		String token = getToken(epp);
 		SessionPeer peer = tm.getSession(token);
 		String name = info.getName();
-		Epp response = null;
-		if (info.getOnlyMetadata()) {
-			MetaData md = peer.check(name);
-			try {
-				byte[] data = MetaData.serialize(md);
-				log.debug("MetaData size:" + data.length);
+
+		try {
+			Epp response = null;
+			if (info.getOnlyMetadata()) {
+				MetaData md = peer.check(name);
+				try {
+					byte[] data = MetaData.serialize(md);
+					log.debug("MetaData size:" + data.length);
+					response = MessageCreator.infoResponse("1000", "lalelu", name,
+							data, name, token, token);
+				} catch (Exception e) {
+					log.debug("MetaData.serialize failed", e);
+					response = MessageCreator.infoResponse("2400",
+							"MetaData.serialize failed", name, null, name, token,
+							token);
+				}
+			} else {
+				byte[] data = peer.read(name);
 				response = MessageCreator.infoResponse("1000", "lalelu", name,
 						data, name, token, token);
-			} catch (Exception e) {
-				log.debug("MetaData.serialize failed", e);
-				response = MessageCreator.infoResponse("2400",
-						"MetaData.serialize failed", name, null, name, token,
-						token);
 			}
-		} else {
-			byte[] data = peer.read(name);
-			response = MessageCreator.infoResponse("1000", "lalelu", name,
-					data, name, token, token);
+			return MessageCreator.marshall(context, response);
+			
+		} catch (Exception e) {
+			return MessageCreator.marshall(context, MessageCreator.infoResponse("1500", e.getMessage(), name, null, name, token, token));
 		}
-		return MessageCreator.marshall(context, response);
 
 	}
 

@@ -14,6 +14,7 @@ public class SessionPeer implements Peer {
 	private TransactionManager transactionManager;
 	private String token;
 	private boolean loggedIn = false;
+	private String username;
 
 	public SessionPeer(TransactionManager tm, String token, ServerPeer localPeer) {
 		this.localPeer = localPeer;
@@ -42,7 +43,7 @@ public class SessionPeer implements Peer {
 	public void create(final String name, final byte[] data) {
 		if (!loggedIn)
 			throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
-		CreateAction createAction = new CreateAction(transactionManager, name,
+		CreateAction createAction = new CreateAction(transactionManager, username, name,
 				data);
 		createAction.action();
 		transactionManager.addAction(token, createAction);
@@ -51,14 +52,16 @@ public class SessionPeer implements Peer {
 	private static class CreateAction implements Action {
 
 		private String name;
+		String owner;
 		private byte[] data;
 		private Peer peer;
 		private TransactionManager tm;
 		private MetaData updatedMetaData;
 
-		public CreateAction(TransactionManager tm, String name, byte[] data) {
+		public CreateAction(TransactionManager tm, String owner, String name, byte[] data) {
 			this.peer = tm.getPeer();
 			this.name = name;
+			this.owner = owner;
 			this.data = data;
 			this.tm = tm;
 		}
@@ -69,6 +72,8 @@ public class SessionPeer implements Peer {
 			try {
 				peer.create(name, data);
 				updatedMetaData = peer.check(name);
+				updatedMetaData.setOwner(owner);
+				updatedMetaData.setLastModifier(owner);
 
 			} finally {
 				tm.unlock(name);
@@ -151,6 +156,7 @@ public class SessionPeer implements Peer {
 	@Override
 	public void login(String username, String pw) {
 		localPeer.login(username, pw);
+		this.username = username; 
 		loggedIn = true;
 	}
 
@@ -224,7 +230,7 @@ public class SessionPeer implements Peer {
 	public void update(String name, byte[] data) {
 		if (!loggedIn)
 			throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
-		UpdateAction action = new UpdateAction(transactionManager, name, data);
+		UpdateAction action = new UpdateAction(transactionManager, username, name, data);
 		transactionManager.addAction(token, action);
 		action.action();
 	}
@@ -232,16 +238,18 @@ public class SessionPeer implements Peer {
 	private static class UpdateAction implements Action {
 		private TransactionManager tm;
 		private String name;
+		private String modifier;
 
 		private Resource resource;
 		private byte[] newData;
 		private ServerPeer peer;
 
-		public UpdateAction(TransactionManager tm, String name, byte[] newData) {
+		public UpdateAction(TransactionManager tm, String modifier, String name, byte[] newData) {
 			super();
 			this.tm = tm;
 			this.peer = tm.getPeer();
 			this.name = name;
+			this.modifier = modifier;
 			this.newData = newData;
 		}
 
@@ -251,6 +259,8 @@ public class SessionPeer implements Peer {
 			try {
 				resource = peer.getResource(name);
 				peer.update(name, newData);
+				peer.check(name).setLastModifier(modifier);
+				
 			} finally {
 				tm.unlock(name);
 			}

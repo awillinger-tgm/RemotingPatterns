@@ -34,14 +34,16 @@ public class Application {
 				
 		}
 		try {
+			ITransferRequestManager trm = new TransferRequestManager();
+			trm.start();
 			comm.Lookup commLookup = new comm.Lookup(peerReader);
 			comm.RequestHandler rh = new comm.RequestHandler(plugins);
-			rh.register("peer", new EppCommunication());
-			this.peerLookup = new Lookup(commLookup, rh);
+			rh.register("peer", new EppCommunication(peerId, trm));
+			this.peerLookup = new Lookup(trm, commLookup, rh);
+			trm.setLookup(peerLookup);
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("",e);
 		}
 	}
 

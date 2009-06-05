@@ -1,6 +1,6 @@
 package comm;
 
-public class ProtocolException extends Exception {
+public class ProtocolException extends RuntimeException {
 
 	public ProtocolException(String message, Throwable cause) {
 		super(message, cause);

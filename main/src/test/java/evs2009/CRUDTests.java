@@ -16,7 +16,7 @@ public class CRUDTests {
 	@Before
 	public void setUp() {
 		this.serverPeerInterface = null;
-		this.localPeer = new ServerPeerImpl();
+		this.localPeer = new ServerPeerImpl("localPeer", new TransferRequestManager());
 		serverPeerInterface.login(Helper.correctUserName,
 				Helper.correctPassword);
 	}

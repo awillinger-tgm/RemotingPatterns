@@ -11,7 +11,13 @@ public class ServerPeerImpl implements ServerPeer {
 	// TODO: set self string
 	private String self;
 	private String other;
-
+	
+	private ITransferRequestManager trm;
+	public ServerPeerImpl(String selfName, ITransferRequestManager trm) {
+		this.self = selfName;
+		this.trm = trm;
+		
+	}
 	/* (non-Javadoc)
 	 * @see evs2009.ServerPeerImpl#check(java.lang.String)
 	 */
@@ -88,7 +94,7 @@ public class ServerPeerImpl implements ServerPeer {
 		if (transferRequests.containsKey(token)) {
 			throw new EppErrorException(EppErrorCode.TOKEN_NOT_FOUND, "");
 		}
-		transferRequests.remove(token);
+		trm.removeIncoming(token);
 	}
 
 	/* (non-Javadoc)
@@ -96,7 +102,17 @@ public class ServerPeerImpl implements ServerPeer {
 	 */
 	@Override
 	public void transferExecute(String token, MetaData info, byte[] data) {
-
+		//TODO check token!
+		String name = trm.getOutgoing(token);
+		if (resources.containsKey(name)) {
+			throw new EppErrorException(EppErrorCode.RESOURCE_EXISTS, "");
+		}
+		Resource resource = new Resource();
+		resource.setData(data);
+		resource.setId(name);
+		resource.setMetaData(info);
+		resources.put(name, resource);
+		
 	}
 
 	/* (non-Javadoc)
@@ -104,7 +120,7 @@ public class ServerPeerImpl implements ServerPeer {
 	 */
 	@Override
 	public void transferRequest(String name, String token) {
-		transferRequests.put(token, new TransferRequest(other, name, token));
+		trm.putIncoming(token, new TransferRequest(other, name, token));
 	}
 
 	/* (non-Javadoc)

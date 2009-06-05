@@ -10,8 +10,10 @@ public class Lookup {
 
 	private comm.Lookup commLookup;
 	private comm.RequestHandler rh;
+	private ITransferRequestManager trm;
 	
-	public Lookup(comm.Lookup clookup, comm.RequestHandler rh) {
+	public Lookup(ITransferRequestManager trm, comm.Lookup clookup, comm.RequestHandler rh) {
+		this.trm = trm;
 		this.commLookup = clookup;
 		this.rh = rh;
 	}
@@ -25,7 +27,7 @@ public class Lookup {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return new ClientPeer(remote);
+		return new ClientPeer(remote, trm);
 	}
 
 }

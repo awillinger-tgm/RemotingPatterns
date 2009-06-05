@@ -21,8 +21,9 @@ public class ClientPeerTest {
 	@Before
 	public void setup() throws Exception {
 		this.mockPeer = Mockito.mock(ServerPeer.class);
+		ITransferRequestManager trm = Mockito.mock(ITransferRequestManager.class);
 		this.comm = new EppCommunication(mockPeer);
-		this.peer = new ClientPeer(this.comm);
+		this.peer = new ClientPeer(this.comm, trm);
 		peer.login("", "");
 	}
 

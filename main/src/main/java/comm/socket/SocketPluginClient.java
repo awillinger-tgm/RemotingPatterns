@@ -1,9 +1,11 @@
 package comm.socket;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import comm.AbsoluteObjectReference;
 import comm.ProtocolException;
 import comm.ProtocolPluginClient;
+import evs2009.mapping.Check;
 
 /**
  * 
@@ -23,30 +26,27 @@ public class SocketPluginClient implements ProtocolPluginClient {
 	private static final Logger log = LoggerFactory
 			.getLogger(SocketPluginClient.class);
 
+	private String peer;
+	int port;
 	private Socket socket;
+	private InputStream is;
+	private OutputStream os;
 
 	@Override
 	public void configure(String location) throws ProtocolException {
 		String[] splitted = location.split(":");
-		String peer = splitted[0];
-		int port = Integer.parseInt(splitted[1]);
-		System.out
-				.println("SPC :: Configuring clientpeer plugin socket to host: "
+		peer = splitted[0];
+		port = Integer.parseInt(splitted[1]);
+		log.info("SPC :: Configuring clientpeer plugin socket to host: "
 						+ peer + " " + "port: " + port);
-		try {
-			this.socket = new Socket(peer, port);
-		} catch (Exception e) {
-			throw new ProtocolException(e);
-		}
 	}
 
 	@Override
 	public byte[] sendData(AbsoluteObjectReference aor, byte[] data)
 			throws ProtocolException {
+		openSocket();
 		try {
-			InputStream is = socket.getInputStream();
-			OutputStream os = socket.getOutputStream();
-
+			
 			os.write(String.valueOf(data.length).getBytes());
 			os.write("\n".getBytes());
 			// log.debug("CLNT :: Size: " + data.length + " Data: " + data);
@@ -64,20 +64,36 @@ public class SocketPluginClient implements ProtocolPluginClient {
 			long read = 0;
 
 			while ((i = is.read(output)) != -1) {
-				// log.debug("Got bytes" + i);
+				log.debug("Got bytes" + i);
 				read += i;
-				// log.debug("Read is " + read);
+				log.debug("Read is " + read);
 				bos.write(output, 0, i);
 				if (read >= size) {
 					break;
 				}
 			}
-
-			is.close();
-			os.close();
-
 			return bos.toByteArray();
 
+		} catch (Exception e) {
+			throw new ProtocolException(e);
+		}
+		finally {
+			try {
+				os.close();
+				is.close();
+				socket.close();
+				
+			} catch (Exception e2) {
+				log.info("",e2);
+			}
+		}
+	}
+	
+	private void openSocket() {
+		try {
+			socket = new Socket(peer, port);
+			is = socket.getInputStream();
+			os = socket.getOutputStream();
 		} catch (Exception e) {
 			throw new ProtocolException(e);
 		}

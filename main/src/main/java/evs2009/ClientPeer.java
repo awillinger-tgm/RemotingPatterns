@@ -23,8 +23,10 @@ public class ClientPeer implements Peer {
 	private final JAXBContext context;
 
 	private String token;
+	private ITransferRequestManager trm;
 
-	public ClientPeer(Communication comm) {
+	public ClientPeer(Communication comm, ITransferRequestManager trm) {
+		this.trm = trm;
 		this.comm = comm;
 		try {
 			context = JAXBContext.newInstance(Epp.class);
@@ -126,6 +128,7 @@ public class ClientPeer implements Peer {
 
 	@Override
 	public void transferRequest(String name, String transferToken) {
+		trm.putOutgoing(name, transferToken);
 		Epp request = MessageCreator.transferRequest(name, transferToken, token);
 		Epp response = send(request);
 		checkResponse(response, "1000",  EppErrorCode.PERMISSION_DENIED, "Not possible");

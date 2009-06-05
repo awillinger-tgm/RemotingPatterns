@@ -73,6 +73,7 @@ public class SocketPluginServer implements Runnable, ProtocolPluginServer {
 							//log.debug("Send flush");
 							is.close();
 							os.close();
+							socket.close();
 
 						} catch (Exception e) {
 							log.warn("SRV :: Client socket problem!", e);
