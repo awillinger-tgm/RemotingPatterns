@@ -73,8 +73,8 @@ public class ApplicationTest {
 		Thread.sleep(100);
 
 		peer1from2.login("mike", "hammer");
-		//app1.getEppCommunication().getServerImpl().transferExecute(token, app2.getEppCommunication()
-		peer2from1.transferExecute(token, app2.getEppCommunication()
+		app1.getEppCommunication().getServerImpl().transferExecute(token, app2.getEppCommunication()
+		//peer2from1.transferExecute(token, app2.getEppCommunication()
 				.getServerImpl().getResource(newName).getMetaData(), app2
 				.getEppCommunication().getServerImpl().getResource(newName)
 				.getData());
