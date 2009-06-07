@@ -8,15 +8,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class CRUDTests {
-	private Peer serverPeerInterface;
-	private ServerPeer localPeer;
+	
+	private ServerPeer serverPeerInterface;
 	private final String identifier = "someString";
 	private final String testString = "testString";
 
 	@Before
 	public void setUp() {
-		this.serverPeerInterface = null;
-		this.localPeer = new ServerPeerImpl("localPeer", new TransferRequestManager());
+		this.serverPeerInterface = new ServerPeerImpl("localPeer", new TransferRequestManager());
 		serverPeerInterface.login(Helper.correctUserName,
 				Helper.correctPassword);
 	}
@@ -64,11 +63,6 @@ public class CRUDTests {
 			fail();
 		} catch (EppErrorException e) {
 		}
-		try {
-			serverPeerInterface.transferRequest(identifier, "SomeToken");
-			fail();
-		} catch (EppErrorException e) {
-		}
 	}
 
 	@Test
@@ -98,21 +92,6 @@ public class CRUDTests {
 		assertEquals(identifier, check.getName());
 		assertEquals(getBytes().length, check.getSize());
 	}
-
-	@Test
-	public void transferRequestCorrect() {
-		insertObject();
-		String token = "SomeToken";
-		serverPeerInterface.transferRequest(identifier, token);
-		TransferRequest transferRequest = this.localPeer
-				.getTransferRequest(identifier);
-		assertEquals(identifier, transferRequest.getResource());
-		assertEquals(token, transferRequest.getToken());
-	}
-
-// we need two peer connections ... moved this one to ApplicationTest!
-//	@Test
-//	public void transferExecuteCorrect() { }
 
 	private void insertObject() {
 		serverPeerInterface.create(identifier, getBytes());
