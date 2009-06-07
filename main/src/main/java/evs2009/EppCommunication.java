@@ -18,7 +18,7 @@ public class EppCommunication implements Communication {
 			.getLogger(EppCommunication.class);
 	// TODO: configure injection of peerimpl
 	private ServerPeerImpl serverPeer;
-	private static TransactionManager tm;
+	private TransactionManager tm;
 
 	public EppCommunication(String name, ITransferRequestManager trm) throws Exception {
 		context = JAXBContext.newInstance(Epp.class);
