@@ -8,14 +8,21 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class CRUDTests {
+<<<<<<< HEAD:main/src/test/java/evs2009/CRUDTests.java
 	private Peer serverPeer;
 	private Peer localPeer;
 	private Application app1;
 	private Application app2;
+=======
+	
+	private ServerPeer serverPeerInterface;
+	private final String identifier = "someString";
+>>>>>>> ff95588693db51fedc7a7d919b508cac83004d4e:main/src/test/java/evs2009/CRUDTests.java
 	private final String testString = "testString";
 
 	@Before
 	public void setUp() {
+<<<<<<< HEAD:main/src/test/java/evs2009/CRUDTests.java
 		this.app1 = new Application("testsocket1");
 		this.app2 = new Application("testsocket2");
 
@@ -23,6 +30,11 @@ public class CRUDTests {
 		this.localPeer = app1.getPeerLookup().lookup("testsocket2");
 		
 		serverPeer.login(Helper.correctUserName, Helper.correctPassword);
+=======
+		this.serverPeerInterface = new ServerPeerImpl("localPeer", new TransferRequestManager());
+		serverPeerInterface.login(Helper.correctUserName,
+				Helper.correctPassword);
+>>>>>>> ff95588693db51fedc7a7d919b508cac83004d4e:main/src/test/java/evs2009/CRUDTests.java
 	}
 
 	@After
@@ -72,11 +84,14 @@ public class CRUDTests {
 			fail();
 		} catch (EppErrorException e) {
 		}
+<<<<<<< HEAD:main/src/test/java/evs2009/CRUDTests.java
 		try {
 			serverPeer.transferRequest(identifier, "SomeToken");
 			fail();
 		} catch (EppErrorException e) {
 		}
+=======
+>>>>>>> ff95588693db51fedc7a7d919b508cac83004d4e:main/src/test/java/evs2009/CRUDTests.java
 	}
 
 	@Test
@@ -110,6 +125,7 @@ public class CRUDTests {
 		assertEquals(getBytes().length, check.getSize());
 	}
 
+<<<<<<< HEAD:main/src/test/java/evs2009/CRUDTests.java
 //	@Test
 //	public void transferRequestCorrect() {
 //		String identifier = "transferRequestCorrect";
@@ -138,6 +154,10 @@ public class CRUDTests {
 
 	private void insertObject(String identifier) {
 		serverPeer.create(identifier, getBytes());
+=======
+	private void insertObject() {
+		serverPeerInterface.create(identifier, getBytes());
+>>>>>>> ff95588693db51fedc7a7d919b508cac83004d4e:main/src/test/java/evs2009/CRUDTests.java
 	}
 
 	private byte[] getBytes() {
