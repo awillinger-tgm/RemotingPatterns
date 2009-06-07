@@ -100,10 +100,7 @@ public class ServerPeerImpl implements ServerPeer {
 	 */
 	@Override
 	public void transferCancel(String token) {
-		if (transferRequests.containsKey(token)) {
-			throw new EppErrorException(EppErrorCode.TOKEN_NOT_FOUND, "");
-		}
-		trm.removeIncoming(token);
+		//To nothing
 	}
 
 	/* (non-Javadoc)
@@ -130,7 +127,7 @@ public class ServerPeerImpl implements ServerPeer {
 	 */
 	@Override
 	public void transferRequest(String name, String token) {
-		trm.putIncoming(token, new TransferRequest(other, name, token));
+		// to nothing
 	}
 
 	/* (non-Javadoc)

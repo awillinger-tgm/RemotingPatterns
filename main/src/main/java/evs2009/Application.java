@@ -42,7 +42,7 @@ public class Application {
 			this.eppc = new EppCommunication(peerId, trm); 
 			
 			rh.register("peer", this.eppc);
-			this.peerLookup = new Lookup(trm, commLookup, rh);
+			this.peerLookup = new Lookup(peerId, trm, commLookup, rh);
 			trm.setLookup(peerLookup);
 
 		} catch (Exception e) {

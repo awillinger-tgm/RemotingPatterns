@@ -96,9 +96,9 @@ public class MessageCreator {
 				name, status, reId, acId)), new TrId(clTRID, svTRID)));
 	}
 
-	public static Epp transferRequest(String name, String token, String clTRID) {
+	public static Epp transferRequest(String name, String peer, String token, String clTRID) {
 		return new Epp(new Command(
-				new Transfer("Request", new ObjectData(name, token.getBytes())), clTRID));
+				new Transfer("Request", new ObjectData(name, peer.getBytes(), token.getBytes())), clTRID));
 	}
 
 	// Request and Query Response use exactly the same format.

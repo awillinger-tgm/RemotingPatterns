@@ -24,8 +24,10 @@ public class ClientPeer implements Peer {
 
 	private String token;
 	private ITransferRequestManager trm;
-
-	public ClientPeer(Communication comm, ITransferRequestManager trm) {
+	private String ownName;
+	
+	public ClientPeer(String ownName, Communication comm, ITransferRequestManager trm) {
+		this.ownName = ownName;
 		this.trm = trm;
 		this.comm = comm;
 		try {
@@ -129,7 +131,7 @@ public class ClientPeer implements Peer {
 	@Override
 	public void transferRequest(String name, String transferToken) {
 		trm.putOutgoing(name, transferToken);
-		Epp request = MessageCreator.transferRequest(name, transferToken, token);
+		Epp request = MessageCreator.transferRequest(name, ownName, transferToken, token);
 		Epp response = send(request);
 		checkResponse(response, "1000",  EppErrorCode.PERMISSION_DENIED, "Not possible");
 	}

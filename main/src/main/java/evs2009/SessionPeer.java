@@ -29,8 +29,7 @@ public class SessionPeer implements Peer {
 	 */
 	@Override
 	public MetaData check(String name) {
-		if (!loggedIn)
-			throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
+		checkLogin();
 		return localPeer.check(name);
 	}
 
@@ -41,8 +40,7 @@ public class SessionPeer implements Peer {
 	 */
 	@Override
 	public void create(final String name, final byte[] data) {
-		if (!loggedIn)
-			throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
+		checkLogin();
 		CreateAction createAction = new CreateAction(transactionManager, username, name,
 				data);
 		createAction.action();
@@ -101,8 +99,7 @@ public class SessionPeer implements Peer {
 	 */
 	@Override
 	public void delete(String name) {
-		if (!loggedIn)
-			throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
+		checkLogin();
 		DeleteAction action = new DeleteAction(transactionManager, name);
 		transactionManager.addAction(token, action);
 		action.action();
@@ -178,8 +175,7 @@ public class SessionPeer implements Peer {
 	 */
 	@Override
 	public byte[] read(String name) {
-		if (!loggedIn)
-			throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
+		checkLogin();
 		// TODO: Do we need lock? transactionManager.lock(name);
 		return localPeer.read(name);
 	}
@@ -191,8 +187,7 @@ public class SessionPeer implements Peer {
 	 */
 	@Override
 	public void transferCancel(String token) {
-		if (!loggedIn)
-			throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
+		checkLogin();
 		localPeer.transferCancel(token);
 	}
 
@@ -204,8 +199,8 @@ public class SessionPeer implements Peer {
 	 */
 	@Override
 	public void transferExecute(String token, MetaData info, byte[] data) {
-		if (!loggedIn)
-			throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
+		checkLogin();
+		
 		localPeer.transferExecute(token, info, data);
 	}
 
@@ -216,9 +211,7 @@ public class SessionPeer implements Peer {
 	 */
 	@Override
 	public void transferRequest(String name, String token) {
-		if (!loggedIn)
-			throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
-		localPeer.transferRequest(name, token);
+		
 	}
 
 	/*
@@ -228,8 +221,6 @@ public class SessionPeer implements Peer {
 	 */
 	@Override
 	public void update(String name, byte[] data) {
-		if (!loggedIn)
-			throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
 		UpdateAction action = new UpdateAction(transactionManager, username, name, data);
 		transactionManager.addAction(token, action);
 		action.action();
@@ -282,4 +273,8 @@ public class SessionPeer implements Peer {
 		}
 	}
 
+	public void checkLogin() {
+		if (!loggedIn)
+			throw new EppErrorException(EppErrorCode.NOT_LOGGED_IN);
+	}
 }

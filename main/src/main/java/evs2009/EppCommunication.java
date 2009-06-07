@@ -19,9 +19,11 @@ public class EppCommunication implements Communication {
 	// TODO: configure injection of peerimpl
 	private ServerPeerImpl serverPeer;
 	private TransactionManager tm;
+	private ITransferRequestManager trm;
 
 	public EppCommunication(String name, ITransferRequestManager trm) throws Exception {
 		context = JAXBContext.newInstance(Epp.class);
+		this.trm = trm;
 		this.serverPeer = new ServerPeerImpl(name, trm);
 		tm = new TransactionManager(serverPeer);;
 		trm.setServerPeer(serverPeer);
@@ -65,10 +67,12 @@ public class EppCommunication implements Communication {
 
 	private byte[] transferRequest(Epp epp) {
 		SessionPeer session = getSession(epp);
+		session.checkLogin();
 		String sessionToken = getToken(epp);
 		String name = epp.getCommand().getTransfer().getTransfer().getName();
+		String peer = new String(epp.getCommand().getTransfer().getTransfer().getMetaData());
 		String transferToken = new String(epp.getCommand().getTransfer().getTransfer().getData());
-		session.transferRequest(name, transferToken);
+		trm.putIncoming(transferToken, new TransferRequest(peer, name, transferToken));
 		return MessageCreator.marshall(context, MessageCreator.transferRequestResponse(name, "1000", "", "", sessionToken, sessionToken));
 	}
 
@@ -79,6 +83,7 @@ public class EppCommunication implements Communication {
 		byte[] data  = epp.getCommand().getTransfer().getTransfer().getData();
 		try {
 			MetaData meta = MetaData.unserialize(epp.getCommand().getTransfer().getTransfer().getMetaData());
+			
 			session.transferExecute(name, meta, data);
 			return MessageCreator.marshall(context, MessageCreator
 					.transferCancelResponse("1000", "Execute successfully",
@@ -96,7 +101,7 @@ public class EppCommunication implements Communication {
 	private byte[] transferCancel(Epp epp) {
 		SessionPeer session = getSession(epp);
 		String name = epp.getCommand().getTransfer().getTransfer().getName();
-		session.transferCancel(name);
+		trm.removeIncoming(name);
 		return MessageCreator.marshall(context, MessageCreator
 				.transferCancelResponse("1000", "Canceled successfully",
 						getToken(epp), getToken(epp)));

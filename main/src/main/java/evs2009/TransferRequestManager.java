@@ -33,8 +33,12 @@ public class TransferRequestManager implements Runnable, ITransferRequestManager
 			try {
 				TransferRequest tr = queue.take();
 				Peer peer = lookup.lookup(tr.getPeer());
-				Resource resource = serverPeer.getResource(tr.getResource());
+				String name = tr.getResource();
+				Resource resource = serverPeer.getResource(name);
+				peer.login("", "");
 				peer.transferExecute(tr.getToken(), resource.getMetaData(), resource.getData());
+				peer.logout();
+				serverPeer.delete(name);
 			} catch (InterruptedException e) {
 				log.warn("TransferRequestManager interrupted");
 			}

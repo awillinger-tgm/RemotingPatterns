@@ -64,26 +64,23 @@ public class ApplicationTest {
 		assertEquals(null, app2.getEppCommunication().getServerImpl()
 				.getResource(newName));
 
-		peer1from2.logout();
-
-		peer2from1.login("transferUser", "sledge");
 		String token = UUID.randomUUID().toString();
-		peer2from1.transferRequest(newName, token);
-		peer2from1.logout();
-		Thread.sleep(100);
+		peer1from2.transferRequest(newName, token);
+		
+		
+		Thread.sleep(2000);
 
-		peer1from2.login("mike", "hammer");
-		app2.getEppCommunication().getServerImpl().transferExecute(token, app1.getEppCommunication()
-		//peer1from2.transferExecute(token, app1.getEppCommunication()
-				.getServerImpl().getResource(newName).getMetaData(), app1
-				.getEppCommunication().getServerImpl().getResource(newName)
-				.getData());
 
 		assertArrayEquals(testData, app2.getEppCommunication().getServerImpl()
 				.getResource(newName).getData());
-//		assertEquals(null, app2.getEppCommunication().getServerImpl()
-//				.getResource(newName));
-//		assertArrayEquals(testData, peer2from1.read(newName));
+		assertEquals(null, app1.getEppCommunication().getServerImpl()
+				.getResource(newName));
+		
+		peer2from1.login("", "");
+		assertArrayEquals(testData, peer2from1.read(newName));
+
+		peer1from2.logout();
+		peer2from1.logout();
 	}
 
 	private void check(Date before, Date after, Date between) {
