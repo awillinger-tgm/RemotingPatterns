@@ -6,12 +6,15 @@ import org.junit.Test;
 
 public class AuthenticationTests {
 
-	private Peer peer = null;
+	private Peer peer;
 
 	@Before
 	public void setUp() throws Exception {
-		// TODO setup peer
-		peer = null;
+		@SuppressWarnings("unused")
+		Application app1 = new Application("testsocket1");
+		Application app2 = new Application("testsocket2");
+
+		this.peer = app2.getPeerLookup().lookup("testsocket1");
 	}
 
 	@After
