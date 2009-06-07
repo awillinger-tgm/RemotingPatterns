@@ -73,13 +73,14 @@ public class ApplicationTest {
 		Thread.sleep(100);
 
 		peer1from2.login("mike", "hammer");
-		peer1from2.transferExecute(token, app2.getEppCommunication()
+		//app1.getEppCommunication().getServerImpl().transferExecute(token, app2.getEppCommunication()
+		peer2from1.transferExecute(token, app2.getEppCommunication()
 				.getServerImpl().getResource(newName).getMetaData(), app2
 				.getEppCommunication().getServerImpl().getResource(newName)
 				.getData());
 
-//		assertArrayEquals(testData, app1.getEppCommunication().getServerImpl()
-//				.getResource(newName).getData());
+		assertArrayEquals(testData, app1.getEppCommunication().getServerImpl()
+				.getResource(newName).getData());
 //		assertEquals(null, app2.getEppCommunication().getServerImpl()
 //				.getResource(newName));
 //		assertArrayEquals(testData, peer2from1.read(newName));

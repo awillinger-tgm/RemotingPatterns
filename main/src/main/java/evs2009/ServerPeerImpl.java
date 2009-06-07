@@ -3,7 +3,15 @@ package evs2009;
 import java.util.Date;
 import java.util.HashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import comm.socket.SocketPluginClient;
+
 public class ServerPeerImpl implements ServerPeer {
+	
+	private static final Logger log = LoggerFactory
+	.getLogger(SocketPluginClient.class);
 
 	private final HashMap<String, Resource> resources = new HashMap<String, Resource>();
 	private final HashMap<String, TransferRequest> transferRequests = new HashMap<String, TransferRequest>();
@@ -108,6 +116,7 @@ public class ServerPeerImpl implements ServerPeer {
 		if (resources.containsKey(name)) {
 			throw new EppErrorException(EppErrorCode.RESOURCE_EXISTS, "");
 		}
+		log.debug("CREATE A NEW INSTANCE OF "+name+" ON "+self);
 		Resource resource = new Resource();
 		resource.setData(data);
 		resource.setId(name);
