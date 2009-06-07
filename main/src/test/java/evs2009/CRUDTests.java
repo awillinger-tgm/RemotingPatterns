@@ -113,6 +113,13 @@ public class CRUDTests {
 	@Test
 	public void transferExecuteCorrect() {
 		// TODO
+		insertObject();
+		String token = "SomeToken";
+		serverPeerInterface.transferRequest(identifier, token);
+		TransferRequest transferRequest = this.localPeer
+				.getTransferRequest(identifier);
+		assertEquals(identifier, transferRequest.getResource());
+		assertEquals(token, transferRequest.getToken());
 	}
 
 	private void insertObject() {

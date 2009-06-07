@@ -53,6 +53,7 @@ All: Session not closed -> Rollback
 *) Login -> Check (doesn't exist) -> Error
 ---TransferRequest---
 *) Login -> Create -> TransferRequest -> Logout -> Correct
+NEU*) Login -> TransferRequest (already exists for this requestor) -> Error
 *) Login -> TransferRequest (doesn't exist) -> Error
 ---TransferExecute---
 *) Login -> TransferExecute -> Read -> Logout
