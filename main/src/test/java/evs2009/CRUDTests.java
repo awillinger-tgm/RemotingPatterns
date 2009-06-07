@@ -8,29 +8,32 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class CRUDTests {
-	private Peer serverPeerInterface;
-	private ServerPeer localPeer;
+	private Peer serverPeer;
+	private Peer localPeer;
 	private final String identifier = "someString";
 	private final String testString = "testString";
 
 	@Before
 	public void setUp() {
-		this.serverPeerInterface = null;
-		this.localPeer = new ServerPeerImpl("localPeer", new TransferRequestManager());
-		serverPeerInterface.login(Helper.correctUserName,
-				Helper.correctPassword);
+		Application app1 = new Application("testsocket1");
+		Application app2 = new Application("testsocket2");
+
+		this.serverPeer = app2.getPeerLookup().lookup("testsocket1");
+		this.localPeer = app1.getPeerLookup().lookup("testsocket2");
+		
+		serverPeer.login(Helper.correctUserName, Helper.correctPassword);
 	}
 
 	@After
 	public void tearDown() {
-		this.serverPeerInterface.logout();
-		this.serverPeerInterface = null;
+		this.serverPeer.logout();
+		this.localPeer = null;
 	}
 
 	@Test
 	public void correctCreationAndRead() {
 		insertObject();
-		byte[] readBytes = serverPeerInterface.read(identifier);
+		byte[] readBytes = serverPeer.read(identifier);
 		assertEquals(getBytes().length, readBytes.length);
 		assertEquals(testString, new String(readBytes));
 	}
@@ -44,28 +47,28 @@ public class CRUDTests {
 	@Test
 	public void RUDdoesntExist() {
 		try {
-			serverPeerInterface.read(identifier);
+			serverPeer.read(identifier);
 			fail();
 		} catch (EppErrorException e) {
 		}
 
 		try {
-			serverPeerInterface.update(identifier, new byte[5]);
+			serverPeer.update(identifier, new byte[5]);
 			fail();
 		} catch (EppErrorException e) {
 		}
 		try {
-			serverPeerInterface.delete(identifier);
+			serverPeer.delete(identifier);
 			fail();
 		} catch (EppErrorException e) {
 		}
 		try {
-			serverPeerInterface.check(identifier);
+			serverPeer.check(identifier);
 			fail();
 		} catch (EppErrorException e) {
 		}
 		try {
-			serverPeerInterface.transferRequest(identifier, "SomeToken");
+			serverPeer.transferRequest(identifier, "SomeToken");
 			fail();
 		} catch (EppErrorException e) {
 		}
@@ -75,17 +78,17 @@ public class CRUDTests {
 	public void updateCorrect() {
 		insertObject();
 		String newObject = "newString";
-		serverPeerInterface.update(identifier, newObject.getBytes());
-		byte[] read = serverPeerInterface.read(identifier);
+		serverPeer.update(identifier, newObject.getBytes());
+		byte[] read = serverPeer.read(identifier);
 		assertEquals(newObject, new String(read));
 	}
 
 	@Test
 	public void deleteCorrect() {
 		insertObject();
-		serverPeerInterface.delete(identifier);
+		serverPeer.delete(identifier);
 		try {
-			serverPeerInterface.read(identifier);
+			serverPeer.read(identifier);
 			fail();
 		} catch (EppErrorException e) {
 		}
@@ -94,7 +97,7 @@ public class CRUDTests {
 	@Test
 	public void checkCorrect() {
 		insertObject();
-		MetaData check = serverPeerInterface.check(identifier);
+		MetaData check = serverPeer.check(identifier);
 		assertEquals(identifier, check.getName());
 		assertEquals(getBytes().length, check.getSize());
 	}
@@ -103,19 +106,28 @@ public class CRUDTests {
 	public void transferRequestCorrect() {
 		insertObject();
 		String token = "SomeToken";
-		serverPeerInterface.transferRequest(identifier, token);
-		TransferRequest transferRequest = this.localPeer
-				.getTransferRequest(identifier);
+		serverPeer.transferRequest(identifier, token);
+		TransferRequest transferRequest = ((ServerPeerImpl)this.localPeer).getTransferRequest(identifier);
 		assertEquals(identifier, transferRequest.getResource());
 		assertEquals(token, transferRequest.getToken());
 	}
 
-// we need two peer connections ... moved this one to ApplicationTest!
-//	@Test
-//	public void transferExecuteCorrect() { }
+	@Test(expected = EppErrorException.class)
+	public void transferRequestExists() throws EppErrorException { 
+		insertObject();
+		String token = "SomeToken";
+		serverPeer.transferRequest(identifier, token);
+		serverPeer.transferRequest(identifier, token);
+	}
+	
+	@Test(expected = EppErrorException.class)
+	public void transferRequestMissing() throws EppErrorException {
+		String token = "SomeToken";
+		serverPeer.transferRequest("notExistend", token);
+	}
 
 	private void insertObject() {
-		serverPeerInterface.create(identifier, getBytes());
+		serverPeer.create(identifier, getBytes());
 	}
 
 	private byte[] getBytes() {
