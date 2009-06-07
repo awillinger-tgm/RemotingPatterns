@@ -59,9 +59,9 @@ public class ApplicationTest {
 		String newName = "TransferFile";
 		peer1from2.create(newName, testData);
 
-		assertArrayEquals(testData, app2.getEppCommunication().getServerImpl()
+		assertArrayEquals(testData, app1.getEppCommunication().getServerImpl()
 				.getResource(newName).getData());
-		assertEquals(null, app1.getEppCommunication().getServerImpl()
+		assertEquals(null, app2.getEppCommunication().getServerImpl()
 				.getResource(newName));
 
 		peer1from2.logout();
@@ -73,13 +73,13 @@ public class ApplicationTest {
 		Thread.sleep(100);
 
 		peer1from2.login("mike", "hammer");
-		app1.getEppCommunication().getServerImpl().transferExecute(token, app2.getEppCommunication()
-		//peer2from1.transferExecute(token, app2.getEppCommunication()
-				.getServerImpl().getResource(newName).getMetaData(), app2
+		app2.getEppCommunication().getServerImpl().transferExecute(token, app1.getEppCommunication()
+		//peer1from2.transferExecute(token, app1.getEppCommunication()
+				.getServerImpl().getResource(newName).getMetaData(), app1
 				.getEppCommunication().getServerImpl().getResource(newName)
 				.getData());
 
-		assertArrayEquals(testData, app1.getEppCommunication().getServerImpl()
+		assertArrayEquals(testData, app2.getEppCommunication().getServerImpl()
 				.getResource(newName).getData());
 //		assertEquals(null, app2.getEppCommunication().getServerImpl()
 //				.getResource(newName));
