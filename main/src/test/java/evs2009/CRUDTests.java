@@ -110,17 +110,9 @@ public class CRUDTests {
 		assertEquals(token, transferRequest.getToken());
 	}
 
-	@Test
-	public void transferExecuteCorrect() {
-		// TODO
-		insertObject();
-		String token = "SomeToken";
-		serverPeerInterface.transferRequest(identifier, token);
-		TransferRequest transferRequest = this.localPeer
-				.getTransferRequest(identifier);
-		assertEquals(identifier, transferRequest.getResource());
-		assertEquals(token, transferRequest.getToken());
-	}
+// we need two peer connections ... moved this one to ApplicationTest!
+//	@Test
+//	public void transferExecuteCorrect() { }
 
 	private void insertObject() {
 		serverPeerInterface.create(identifier, getBytes());

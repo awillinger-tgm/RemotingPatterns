@@ -14,7 +14,8 @@ public class Application {
 
 	private static final Logger log = LoggerFactory
 			.getLogger(Application.class);
-
+	
+	private EppCommunication eppc;
 	private Lookup peerLookup;
 
 	public Application(String peerId) {
@@ -38,7 +39,9 @@ public class Application {
 			trm.start();
 			comm.Lookup commLookup = new comm.Lookup(peerReader);
 			comm.RequestHandler rh = new comm.RequestHandler(plugins);
-			rh.register("peer", new EppCommunication(peerId, trm));
+			this.eppc = new EppCommunication(peerId, trm); 
+			
+			rh.register("peer", this.eppc);
 			this.peerLookup = new Lookup(trm, commLookup, rh);
 			trm.setLookup(peerLookup);
 
@@ -47,6 +50,10 @@ public class Application {
 		}
 	}
 
+	public EppCommunication getEppCommunication() {
+		return eppc;
+	}
+	
 	public Lookup getPeerLookup() {
 		return peerLookup;
 	}

@@ -13,11 +13,12 @@ public class ServerPeerImpl implements ServerPeer {
 	private String other;
 	
 	private ITransferRequestManager trm;
+	
 	public ServerPeerImpl(String selfName, ITransferRequestManager trm) {
 		this.self = selfName;
 		this.trm = trm;
-		
 	}
+	
 	/* (non-Javadoc)
 	 * @see evs2009.ServerPeerImpl#check(java.lang.String)
 	 */

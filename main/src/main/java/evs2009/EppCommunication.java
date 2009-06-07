@@ -17,13 +17,18 @@ public class EppCommunication implements Communication {
 	private static final Logger log = LoggerFactory
 			.getLogger(EppCommunication.class);
 	// TODO: configure injection of peerimpl
+	private ServerPeerImpl serverPeer;
 	private static TransactionManager tm;
 
 	public EppCommunication(String name, ITransferRequestManager trm) throws Exception {
 		context = JAXBContext.newInstance(Epp.class);
-		ServerPeerImpl serverPeer = new ServerPeerImpl(name, trm);
+		this.serverPeer = new ServerPeerImpl(name, trm);
 		tm = new TransactionManager(serverPeer);;
 		trm.setServerPeer(serverPeer);
+	}
+	
+	public ServerPeerImpl getServerImpl() {
+		return serverPeer;
 	}
 
 	EppCommunication(ServerPeer peer) throws Exception {
