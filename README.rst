@@ -17,8 +17,11 @@ UML
 Verwendete Remoting Patterns
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Verbesserungsvorschläge/Kritik
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Verbesserungsvorschläge, Kritik
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Testcase schlägt fehl
+---------------------
 
 - ant test/ant laeuft nicht durch (debug output wurde hinzugefuegt):
 
@@ -40,6 +43,27 @@ Verbesserungsvorschläge/Kritik
     [junit]
 
   Fix: Auskommentieren von check(..) in den Zeilen 33, 45, 47 in der Datei ApplicationTest.java.
+
+Dokumentation unvollständig gelöscht
+------------------------------------
+
+Die Dokumentations-Files welche wohl hätte von uns verborgen werden sollen
+waren noch über die Git-History auffindbar. Mit den folgenden Befehl wären die
+Dateien tatsächlich vollständig gelöscht worden:
+
+.. code:: bash
+
+    git filter-branch \
+    --index-filter 'git rm --cached --ignore-unmatch \
+    README \
+    documentation/evs028.odt \
+    documentation/evs028.pdf \
+    documentation/evsCore.jpg \
+    documentation/pkgComm.jpg \
+    documentation/pkgMapping.jpg \
+    ' d0f074f4a20f6b8b68c0ee80b1646e992d8c09ac..HEAD
+
+``d0f074f4a20f6b8b68c0ee80b1646e992d8c09ac`` ist hierbei der erste commit.
 
 Zeitaufzeichnung
 ~~~~~~~~~~~~~~~~
