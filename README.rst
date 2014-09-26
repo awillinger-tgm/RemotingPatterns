@@ -99,7 +99,9 @@ Zeitaufzeichnung
 ================================= ================= ========== ===== ===== =========
 Task                              Who               Date       From  To    Duration
 ================================= ================= ========== ===== ===== =========
-understanding buildfile           Jakob Klepp       2014-09-22 08:10 09:00   00:50
-understanding buildfile           Andreas Willinger 2014-09-22 08:10 09:00   00:50
-**TOTAL**                                                                  **01:40**
+understanding buildfile           Jakob Klepp       2014-09-26 08:10 09:00   00:50
+understanding buildfile           Andreas Willinger 2014-09-26 08:10 09:00   00:50
+UML erstellt                      Jakob Klepp       2014-09-26 09:00 10:40   01:40
+Kritik: Dokument löschen          Jakob Klepp       2014-09-26 10:40 10:50   00:10
+**TOTAL**                                                                  **03:30**
 ================================= ================= ========== ===== ===== =========
