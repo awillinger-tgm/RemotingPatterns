@@ -24,5 +24,14 @@ public class PeerReaderTest {
 		assertEquals(34568, pe.get(1).getPort());
 		
 	}
-	
+    
+    @Test
+    public void testNonExistant()
+    {
+        PeerReader r = new PeerReader("");
+        
+        List<PeerEndpoint> pe = r.getEndpoints("test00");
+        
+        assertEquals(0, pe.size());
+    }
 }
