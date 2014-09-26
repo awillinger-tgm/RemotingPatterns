@@ -6,3 +6,6 @@ build
 *.prefs
 .classpath
 .project
+
+*.asta.bak
+*.asta.lock
