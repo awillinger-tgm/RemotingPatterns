@@ -11,6 +11,32 @@ Beschreibung der Applikation
 Wie Kompilieren?
 ----------------
 
+Falls noch nicht geschehen, muessen zuerst die Abhaengigkeiten aufgeloest & heruntergeladen werden:
+
+.. code:: bash
+
+    ant get-deps
+
+Anschliessend koennen entweder die tests:
+
+.. code:: bash
+
+    ant test
+
+Nur kompilierung:
+
+.. code:: bash
+
+    ant compile
+
+Oder gleich der ganze Ablauf durchgefuert werden (compile -> test -> package -> jar):
+
+.. code:: bash
+
+    ant
+
+
+
 UML
 ~~~
 
@@ -42,7 +68,9 @@ Testcase schlägt fehl
     [junit]     at evs2009.ApplicationTest.generalTest(ApplicationTest.java:33)
     [junit]
 
-  Fix: Auskommentieren von check(..) in den Zeilen 33, 45, 47 in der Datei ApplicationTest.java.
+  Temp. Fix: Auskommentieren von check(..) in den Zeilen 33, 45, 47 in der Datei ApplicationTest.java.
+
+- 
 
 Dokumentation unvollständig gelöscht
 ------------------------------------
