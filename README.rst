@@ -33,7 +33,7 @@ Beschreibung der Applikation
 Wie Kompilieren?
 ----------------
 
-Falls noch nicht geschehen, muessen zuerst die Abhaengigkeiten aufgeloest & heruntergeladen werden:
+Falls noch nicht geschehen, müssen zuerst die Abhängigkeiten aufgeloest & heruntergeladen werden:
 
 .. code:: bash
 
@@ -51,7 +51,7 @@ Nur kompilierung:
 
     ant compile
 
-Oder gleich der ganze Ablauf durchgefuert werden (compile -> test -> package -> jar):
+Oder gleich der ganze Ablauf durchgefürt werden (compile -> test -> package -> jar):
 
 .. code:: bash
 
@@ -71,7 +71,7 @@ Verbesserungsvorschläge, Kritik
 Testcase schlägt fehl
 ---------------------
 
-Nach dem entpacken funktioniert das Target ant test/ant nicht(debug output wurde hinzugefuegt):
+Nach dem entpacken funktioniert das Target ant test/ant nicht(debug output wurde hinzugefügt):
 
 .. code:: bash
 
@@ -90,12 +90,12 @@ Nach dem entpacken funktioniert das Target ant test/ant nicht(debug output wurde
     [junit]     at evs2009.ApplicationTest.generalTest(ApplicationTest.java:33)
     [junit]
 
-Um das zu fixen, die Aufrufe von check(..) in den Zeilen 33, 45, 47 in der Datei ApplicationTest.java auskommentieren.
+Um das zu fixen, müssen die Aufrufe von check(..) in den Zeilen 33, 45, 47 in der Datei ApplicationTest.java auskommentiert werden.
 
 Kein ordentliches Exceptionhandling
 -----------------------------------
 
-In diversen Dateien, z.B. PeerReader.java findest kein ordentliches Exceptionhandling statt.
+In diversen Dateien, z.B. PeerReader.java findet kein ordentliches Exceptionhandling statt.
 Die Exceptions werden zwar abgefangen, der Stacktrace jedoch direkt wieder ausgegeben - keine custom exceptions, kein Logging.
 
 Falls eine Exception auftritt, sollte diese Entweder eine eigene Exception (welche später abgefangen wird) auslösen,
@@ -143,9 +143,11 @@ Zeitaufzeichnung
 ================================= ================= ========== ===== ===== =========
 Task                              Who               Date       From  To    Duration
 ================================= ================= ========== ===== ===== =========
-understanding buildfile           Jakob Klepp       2014-09-26 08:10 09:00   00:50
-understanding buildfile           Andreas Willinger 2014-09-26 08:10 09:00   00:50
+Understanding buildfile           Jakob Klepp       2014-09-26 08:10 09:00   00:50
+Understanding buildfile           Andreas Willinger 2014-09-26 08:10 09:00   00:50
 UML erstellt                      Jakob Klepp       2014-09-26 09:00 10:40   01:40
 Kritik: Dokument löschen          Jakob Klepp       2014-09-26 10:40 10:50   00:10
-**TOTAL**                                                                  **03:30**
+Reparatur Testfall, Dokumentiert  Andreas Willinger 2014-09-26 09:00 10:20   01:20
+Ausführinstruktionen, Testfall    Andreas Willinger 2014-09-26 10:20 11:10   00:50
+**TOTAL**                                                                  **05:40**
 ================================= ================= ========== ===== ===== =========
