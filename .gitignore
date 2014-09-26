@@ -11,3 +11,6 @@ build
 *.asta.lock
 *.png.bak
 *.png.lock
+
+README.pdf
+*.~lock.*

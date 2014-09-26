@@ -1,6 +1,6 @@
-================
-RemotingPatterns
-================
+=================
+Remoting Patterns
+=================
 
 Aufgabenstellung
 ~~~~~~~~~~~~~~~~
@@ -35,13 +35,31 @@ Oder gleich der ganze Ablauf durchgefuert werden (compile -> test -> package -> 
 
     ant
 
-
-
 UML
 ~~~
 
+.. image:: documentation/Classdiagram.png
+
 Verwendete Remoting Patterns
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Broker Pattern
+--------------
+
+Das Hauptpattern dieser Applikation ist das Broker Pattern. [1]_
+
+.. image:: documentation/broker_pattern.png
+    :width: 60%
+
+Der Broker enthält einen Requestor, welche mit hilfe eines Marshaller,
+die Anfragen in eine übers Netzwerk übertragbare form bringt. Auf der
+Serverseite, wird wieder mit hilfe des Marshaller, die Nachricht in eine
+Form gebracht welche vom Invoker genutz werden kann um dass entfernte Objekt
+auszurufen. Das Broker Pattern wiederum ist aus besteht aus unterschiedlichen
+Patterns zur erfüllung unterschiedlicher Teilaufgaben.
+
+Quelle: Software Architecture,
+A Comprehensive Framework and Guide for Practitioners [2]_
 
 Verbesserungsvorschläge, Kritik
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -69,8 +87,6 @@ Testcase schlägt fehl
     [junit]
 
   Temp. Fix: Auskommentieren von check(..) in den Zeilen 33, 45, 47 in der Datei ApplicationTest.java.
-
-- 
 
 Dokumentation unvollständig gelöscht
 ------------------------------------
@@ -105,3 +121,33 @@ UML erstellt                      Jakob Klepp       2014-09-26 09:00 10:40   01:
 Kritik: Dokument löschen          Jakob Klepp       2014-09-26 10:40 10:50   00:10
 **TOTAL**                                                                  **03:30**
 ================================= ================= ========== ===== ===== =========
+
+Quellen
+~~~~~~~
+
+.. _1:
+
+[1]  Communication Framework,
+     184.153 Design Methods for Distributed Systems,
+     Version 1.0,
+     Michael Borko; Michael Greifeneder; Florian Mitlik,
+     Technische Universität Wien
+
+.. _2:
+
+[2]  Software Architecture,
+     A Comprehensive Framework and Guide for Practitioners,
+     Oliver Vogel; Ingo Arnold; Arif Chughtai; Timo Kehrer,
+     ISBN: 978-3-642-19735-2 (Print) 978-3-642-19736-9 (Online),
+     http://link.springer.com/book/10.1007/978-3-642-19736-9
+
+.. header::
+
+    +-------------+--------------------+------------+
+    | ###Title### | Andreas Willinger, | 2014-09-26 |
+    |             | Jakob Klepp        |            |
+    +-------------+--------------------+------------+
+
+.. footer::
+
+    ###Page### / ###Total###
