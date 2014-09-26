@@ -9,3 +9,5 @@ build
 
 *.asta.bak
 *.asta.lock
+*.png.bak
+*.png.lock
