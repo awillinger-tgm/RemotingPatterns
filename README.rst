@@ -9,9 +9,13 @@ Das Framework für Remoting Patterns finden sie unter dem Thema "Resources"!
 
 Gruppenarbeit: 2 Mitglieder (Server/Client)
 
-Analysieren Sie in einer Gruppe von 2 Leuten die mitgelieferte Implementation der verteilten LeelaApplikation. Identifizieren Sie dabei alle verwendeten Elemente der "Basic Remoting Patterns" und erstellen Sie UML-Klassendiagramme für die Pakete comm, comm.socket, comm.soap, evs2009 und evs2009.mapping
+Analysieren Sie in einer Gruppe von 2 Leuten die mitgelieferte Implementation
+der verteilten LeelaApplikation. Identifizieren Sie dabei alle verwendeten
+Elemente der "Basic Remoting Patterns" und erstellen Sie UML-Klassendiagramme
+für die Pakete comm, comm.socket, comm.soap, evs2009 und evs2009.mapping
 
-Schließen Sie die unfertigen Tests ab, und dokumentieren Sie etwaige Schwierigkeiten.
+Schließen Sie die unfertigen Tests ab, und dokumentieren Sie etwaige
+Schwierigkeiten.
 
 Was ist zu tun?
 
@@ -33,7 +37,8 @@ Beschreibung der Applikation
 Wie Kompilieren?
 ----------------
 
-Falls noch nicht geschehen, müssen zuerst die Abhängigkeiten aufgeloest & heruntergeladen werden:
+Falls noch nicht geschehen, müssen zuerst die Abhängigkeiten
+aufgelöst & heruntergeladen werden:
 
 .. code:: bash
 
@@ -51,7 +56,8 @@ Nur kompilierung:
 
     ant compile
 
-Oder gleich der ganze Ablauf durchgefürt werden (compile -> test -> package -> jar):
+Oder gleich der ganze Ablauf durchgefürt werden
+(compile -> test -> package -> jar):
 
 .. code:: bash
 
@@ -89,7 +95,8 @@ Verbesserungsvorschläge, Kritik
 Testcase schlägt fehl
 ---------------------
 
-Nach dem entpacken funktioniert das Target ant test/ant nicht(debug output wurde hinzugefügt):
+Nach dem entpacken funktioniert das Target ant test/ant
+nicht(debug output wurde hinzugefügt):
 
 .. code:: bash
 
@@ -108,16 +115,19 @@ Nach dem entpacken funktioniert das Target ant test/ant nicht(debug output wurde
     [junit]     at evs2009.ApplicationTest.generalTest(ApplicationTest.java:33)
     [junit]
 
-Um das zu fixen, müssen die Aufrufe von check(..) in den Zeilen 33, 45, 47 in der Datei ApplicationTest.java auskommentiert werden.
+Um das zu fixen, müssen die Aufrufe von check(..) in den Zeilen
+33, 45, 47 in der Datei ApplicationTest.java auskommentiert werden.
 
 Kein ordentliches Exceptionhandling
 -----------------------------------
 
-In diversen Dateien, z.B. PeerReader.java findet kein ordentliches Exceptionhandling statt.
-Die Exceptions werden zwar abgefangen, der Stacktrace jedoch direkt wieder ausgegeben - keine custom exceptions, kein Logging.
+In diversen Dateien, z.B. PeerReader.java findet kein ordentliches
+Exceptionhandling statt. Die Exceptions werden zwar abgefangen, der Stacktrace
+jedoch direkt wieder ausgegeben - keine custom exceptions, kein Logging.
 
-Falls eine Exception auftritt, sollte diese Entweder eine eigene Exception (welche später abgefangen wird) auslösen,
-oder ein Logging Tool (z.B. Log4j) verwendet werden.
+Falls eine Exception auftritt, sollte diese Entweder eine eigene Exception
+(welche später abgefangen wird) auslösen, oder ein Logging Tool (z.B. Log4j)
+verwendet werden.
 
 Dokumentation unvollständig gelöscht
 ------------------------------------
@@ -143,16 +153,19 @@ Dateien tatsächlich vollständig gelöscht worden:
 Testcase
 --------
 
-Wir haben uns entschieden, die PeerReaderTest Klasse um einen Testfall zu erweitern.
-Dieser provoziert eine FileNotFoundException (welche im PeerReader nicht vollständig abgefangen wird - siehe oben).
+Wir haben uns entschieden, die PeerReaderTest Klasse um einen Testfall zu
+erweitern. Dieser provoziert eine FileNotFoundException (welche im PeerReader
+nicht vollständig abgefangen wird - siehe oben).
 
-Um die FNFE auszulösen, erzeugt der Testfall ein neues PeerReader objekt mit leerem String als Dateiname.
-Anschließend versucht er auf die Endpoints "test00" zuzugreifen.
+Um die FNFE auszulösen, erzeugt der Testfall ein neues PeerReader objekt mit
+leerem String als Dateiname. Anschließend versucht er auf die Endpoints
+"test00" zuzugreifen.
 
 Erwartetes Ergebnis: assertEquals = true, da leere Liste
-Momentanes Ergebnis: NullPointerException (Endpoint existiert nicht in der Liste, kein Check in der
-PeerReader Klasse ob Element überhaupt existiert).
-Wenn das ein vom ursprünglichen Ersteller erwartetes Ergebnis ist, so fehlt das in der Dokumentation.
+Momentanes Ergebnis: NullPointerException (Endpoint existiert nicht in der
+Liste, kein Check in der PeerReader Klasse ob Element überhaupt existiert).
+Wenn das ein vom ursprünglichen Ersteller erwartetes Ergebnis ist, so fehlt
+das in der Dokumentation.
 
 Zeitaufzeichnung
 ~~~~~~~~~~~~~~~~
