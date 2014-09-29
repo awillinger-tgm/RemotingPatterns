@@ -34,6 +34,21 @@ Punkte (16):
 Beschreibung der Applikation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Implementation eines Object-Brokers.
+
+1. Liest aus einer Datei eine Liste mit "Peers" aus, wobei es sich bei
+   Peers wohl um andere Instanzen der Applikation oder einer weiteren
+   implementation des selben Protokolls handelt.
+
+2. Dem anderen Peer wird die Wahl zwischen 2 verschiedenen Transport
+   Protokollen geboten (``soap``, ``socket``).
+
+3. Aus den CLI Argumenten wird einer der in der Liste stehenden Peers
+   ausgewählt.
+
+4. Die Verbindung wird mit hilfe eines Passworts hergestellt.
+   (``Peer#login(username:String, pw:String)``)
+
 Wie Kompilieren?
 ----------------
 
@@ -88,6 +103,36 @@ Patterns zur erfüllung unterschiedlicher Teilaufgaben.
 
 Quelle: Software Architecture,
 A Comprehensive Framework and Guide for Practitioners [2]_
+
+Requenstor
+''''''''''
+
+Klassen:
+
+* ``Requestor``
+* ``RequestHandler``
+
+Invoker
+'''''''
+
+Klassen:
+
+* ``Invoker``
+
+Client Request Handler
+''''''''''''''''''''''
+
+Klassen:
+
+* ``RequestHandler``
+* ``ProtocolPluginClient``
+
+Server Request Handler
+''''''''''''''''''''''
+
+Klassen:
+
+* ``ProtocolPluginClient``
 
 Verbesserungsvorschläge, Kritik
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -179,7 +224,9 @@ UML erstellt                      Jakob Klepp       2014-09-26 09:00 10:40   01:
 Kritik: Dokument löschen          Jakob Klepp       2014-09-26 10:40 10:50   00:10
 Reparatur Testfall, Dokumentiert  Andreas Willinger 2014-09-26 09:00 10:20   01:20
 Ausführinstruktionen, Testfall    Andreas Willinger 2014-09-26 10:20 11:10   00:50
-**TOTAL**                                                                  **05:40**
+Beschreibung der Applikation      Jakob Klepp       2014-09-29 12:40 12:50   00:10
+Beschreibung der Applikation      Andreas Willinger 2014-09-29 12:40 13:05   00:25
+**TOTAL**                                                                  **06:15**
 ================================= ================= ========== ===== ===== =========
 
 Quellen
@@ -204,7 +251,7 @@ Quellen
 .. header::
 
     +-------------+--------------------+------------+
-    | ###Title### | Andreas Willinger, | 2014-09-26 |
+    | ###Title### | Andreas Willinger, | 2014-09-29 |
     |             | Jakob Klepp        |            |
     +-------------+--------------------+------------+
 
