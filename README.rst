@@ -25,11 +25,11 @@ Was ist zu tun?
 
 Punkte (16):
 
-Identifikation von Basic Remoting Patterns ... 1Pkt
-Beschreibung der Applikation ... 4Pkt
-UML-Diagramme ... 3Pkt
-Schreiben von einem neuen Testfall ... 2Pkt
-konstruktive Verbesserungsvorschläge / Kritikpunkte ... 6Pkt
+* Identifikation von Basic Remoting Patterns ... 1Pkt
+* Beschreibung der Applikation ... 4Pkt
+* UML-Diagramme ... 3Pkt
+* Schreiben von einem neuen Testfall ... 2Pkt
+* konstruktive Verbesserungsvorschläge / Kritikpunkte ... 6Pkt
 
 Beschreibung der Applikation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
